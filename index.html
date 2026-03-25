@@ -1,202 +1,207 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GAL: GLOBAL AUCTIONS LIVE & DIGITAL ASSET HUB</title>
     <style>
         :root {
-            --bg-dark: #0a0e0a;
-            --panel-bg: #1a241a;
-            --text-green: #89b068;
-            --bright-green: #00ff41;
-            --orange: #f59e0b;
-            --border: 1px solid #2d3d2d;
+            --dark-bg: #0d120d;
+            --panel-bg: #141d14;
+            --text-primary: #89b068;
+            --highlight: #00ff41;
+            --accent: #f59e0b;
+            --border-color: #2d3d2d;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-green);
-            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #000;
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 10px;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
         }
 
-        /* Główny kontener naśladujący tablet */
-        .tablet-frame {
+        /* GŁÓWNY TERMINAL */
+        #main-terminal {
             width: 100%;
-            max-width: 1200px;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border: 15px solid #1a1a1a;
-            border-radius: 30px;
+            height: 100%;
+            max-width: 1400px;
+            background: var(--dark-bg);
+            border: 10px solid #1a1a1a;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: 320px 1fr 300px;
+            grid-template-rows: 60px 1fr 80px;
+            gap: 15px;
             padding: 20px;
             box-sizing: border-box;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr;
-            grid-template-rows: auto 1fr auto;
-            gap: 15px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
         }
 
-        /* Nagłówek */
+        /* NAGŁÓWEK */
         header {
             grid-column: 1 / 4;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: var(--border);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
         }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; }
+        .logo span { color: var(--accent); }
+        .hub-title { font-size: 18px; letter-spacing: 2px; color: #fff; }
 
-        .logo { font-weight: bold; font-size: 22px; color: #fff; }
-        .logo span { color: var(--orange); }
-
-        /* Panele */
+        /* PANELE */
         .panel {
             background: var(--panel-bg);
-            border: var(--border);
-            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
             padding: 15px;
+            position: relative;
         }
-
-        .panel-title {
+        .panel-header {
             font-size: 12px;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #2d3d2d;
-            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
         }
 
-        /* Mapa (Lewa) */
-        .map-section {
+        /* LEWA STRONA: IMPACT MONITOR */
+        .impact-monitor .map-box {
+            height: 180px;
             background: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg') center/contain no-repeat;
-            height: 150px;
-            opacity: 0.3;
-            filter: invert(1) sepia(1) saturate(5) hue-rotate(60deg);
+            filter: invert(72%) sepia(13%) saturate(614%) hue-rotate(50deg) brightness(88%) contrast(85%);
+            opacity: 0.4;
         }
+        .stats-row { display: flex; justify-content: space-between; margin-top: 15px; }
+        .stat-val { color: var(--highlight); font-size: 22px; font-weight: bold; }
+        .stat-lbl { font-size: 9px; text-transform: uppercase; }
 
-        /* Stream (Środek) */
-        .stream-box {
-            height: 250px;
-            background: #111;
+        /* ŚRODEK: LIVE STREAM */
+        .live-stream { display: flex; flex-direction: column; gap: 15px; }
+        .video-feed {
+            flex-grow: 1;
+            background: #000;
             border: 1px solid #3d4d3d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
+            overflow: hidden;
         }
-        .stream-label {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 2px 5px;
+        .video-feed::before {
+            content: "● LIVE STREAM: SEATTLE CONSTRUCTION SITE 14, USA";
+            position: absolute; top: 10px; left: 10px; font-size: 10px; background: rgba(0,0,0,0.6); padding: 3px 8px;
         }
+        .video-feed img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
 
-        /* Aukcja (Prawa) */
-        .auction-box {
+        /* DOLNY PANEL ŚRODKOWY: TOKENIZATION */
+        .token-panel {
+            height: 140px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
             text-align: center;
         }
-        .price {
-            font-size: 36px;
-            color: var(--orange);
-            font-weight: bold;
-            margin: 15px 0;
-        }
+        .token-hash { color: var(--accent); font-family: monospace; font-size: 12px; }
+
+        /* PRAWA STRONA: AUCTION */
+        .auction-panel { border-color: var(--accent); }
+        .lot-info { font-size: 13px; color: #fff; margin-bottom: 10px; }
+        .price-tag { font-size: 32px; color: var(--accent); font-weight: bold; text-align: center; margin: 20px 0; }
+        .timer { font-size: 20px; color: #fff; text-align: center; font-family: monospace; }
         .bid-btn {
-            background: var(--orange);
+            width: 100%;
+            background: var(--accent);
             color: #000;
             border: none;
-            width: 100%;
-            padding: 10px;
+            padding: 12px;
             font-weight: bold;
+            margin-top: 15px;
             cursor: pointer;
         }
 
-        /* Ticker (Dół) */
+        /* STOPKA */
         footer {
             grid-column: 1 / 4;
-            font-size: 10px;
-            white-space: nowrap;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: var(--text-primary);
             overflow: hidden;
-            border-top: var(--border);
-            padding-top: 10px;
+            white-space: nowrap;
         }
+        .ticker { animation: scroll 30s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* Responsywność dla pionu (telefon) */
-        @media (max-width: 800px) {
-            .tablet-frame {
-                display: flex;
-                flex-direction: column;
-                height: auto;
-                aspect-ratio: auto;
-                border: none;
-            }
+        /* RESPONSYWNOŚĆ PIONOWA */
+        @media (max-width: 900px) {
+            #main-terminal { display: flex; flex-direction: column; overflow-y: auto; height: auto; }
+            body { overflow-y: auto; }
         }
     </style>
 </head>
 <body>
 
-<div class="tablet-frame">
+<div id="main-terminal">
     <header>
         <div class="logo">Rec<span>Global</span>Eco</div>
-        <div style="font-size: 14px; font-weight: bold; color: #fff;">GAL: GLOBAL AUCTIONS LIVE & DIGITAL ASSET HUB</div>
+        <div class="hub-title">GAL: GLOBAL AUCTIONS LIVE & DIGITAL ASSET HUB</div>
     </header>
 
-    <div class="panel">
-        <div class="panel-title">Global Impact Monitor</div>
-        <div class="map-section"></div>
-        <div style="margin-top:10px; display:flex; justify-content: space-between;">
-            <div>
-                <div style="color:var(--bright-green); font-size: 18px;">125,430</div>
-                <div style="font-size: 8px;">CO2 DIVERTED (MT)</div>
-            </div>
-            <div>
-                <div style="color:var(--bright-green); font-size: 18px;">25,890</div>
-                <div style="font-size: 8px;">MATERIAL DIVERTED (TONS)</div>
-            </div>
+    <section class="panel impact-monitor">
+        <div class="panel-header">GLOBAL IMPACT MONITOR <span>⋮</span></div>
+        <div class="map-box"></div>
+        <div class="stats-row">
+            <div><div class="stat-val">125,430</div><div class="stat-lbl">CO2 DIVERTED (MT)</div></div>
+            <div><div class="stat-val">25,890</div><div class="stat-lbl">MATERIAL (TONS)</div></div>
         </div>
-    </div>
+        <div style="margin-top:20px;">
+            <div class="stat-lbl">ACTIVE HUBS: <span style="color:var(--highlight)">3</span></div>
+            <div style="font-size: 10px; margin-top:5px;">Berlin | Dubai | Singapore</div>
+        </div>
+    </section>
 
-    <div class="panel">
-        <div class="panel-title">
-            <span>● LIVE STREAM: SEATTLE SITE 14, USA</span>
+    <section class="live-stream">
+        <div class="video-feed">
+            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800" alt="Recycling Machine Feed">
         </div>
-        <div class="stream-box">
-            <div style="text-align:center;">
-               <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=200" alt="Machine" style="opacity: 0.5;">
-               <br><small>[ CAMERA FEED HUB-01 ]</small>
+        <div class="panel token-panel">
+            <div><div class="stat-lbl">WASTE PALLET</div><div style="font-size:20px;">📦</div></div>
+            <div style="font-size:24px;">➔</div>
+            <div>
+                <div class="stat-lbl">UNIQUE HASH</div>
+                <div class="token-hash">GTK-1450-4E3F-72A1</div>
+                <div style="color:var(--highlight); font-size:9px;">COMPLETE & SECURED</div>
             </div>
         </div>
-        <div class="panel" style="margin-top:10px; background: rgba(0,0,0,0.3);">
-            <div style="font-size: 10px;">TOKENIZATION PANEL (SOLANA CHAIN)</div>
-            <div style="display:flex; justify-content: space-around; align-items: center; margin-top:5px;">
-                <div style="font-size: 12px; color: var(--bright-green);">HASH: GTK-1450-4E3F</div>
-                <div style="background: var(--orange); color:#000; padding:2px 5px; font-size:9px; font-weight:bold;">SECURED</div>
-            </div>
-        </div>
-    </div>
+    </section>
 
-    <div class="panel auction-box">
-        <div class="panel-title">Auction <span style="color: var(--bright-green);">ACTIVE</span></div>
-        <div style="font-size: 11px; text-align: left;">LOT #14: 10 PALLETS CERTIFIED PLYWOOD (9MM)</div>
-        <div style="font-size: 10px; margin-top: 5px; color: #fff;">CURRENT BID:</div>
-        <div class="price">$5,800 USD</div>
-        <div style="font-size: 12px; color: var(--orange); margin-bottom: 10px;">00h 14m 28s</div>
+    <section class="panel auction-panel">
+        <div class="panel-header">AUCTION <span style="color:var(--highlight)">● ACTIVE</span></div>
+        <div class="lot-info">LOT #14: 10 PALLETS CERTIFIED PLYWOOD (9MM)</div>
+        <div style="font-size:10px; margin-top:15px;">CURRENT BID:</div>
+        <div class="price-tag">$5,800 USD</div>
+        <div style="font-size:10px; text-align:center;">TIME REMAINING:</div>
+        <div class="timer">00h 14m 28s</div>
         <button class="bid-btn">PLACE BID</button>
-    </div>
+        <div style="display:flex; gap:5px; margin-top:10px;">
+            <button style="flex:1; background:#333; color:#fff; border:none; padding:5px; font-size:10px;">ALLTON</button>
+            <button style="flex:1; background:#444; color:#fff; border:none; padding:5px; font-size:10px;">TIMER</button>
+        </div>
+    </section>
 
     <footer>
-        // CERTIFIED EKO-RESOURCES: 100% TRACEABLE // SOLANA (SOL): $145.20 (+4.5%) // JUPITER (JUP): $1.15 (+2.1%) // RECGEO APY: 8.2% // GLOBAL STATUS: ALL HUBS OPERATIONAL
+        <div class="ticker">
+            // CERTIFIED EKO-RESOURCES: 100% TRACEABLE (ISO 9001) // SOLANA (SOL): $145.20 (+4.5%) // JUPITER (JUP): $1.15 (+2.1%) // RECGEO STAKING APY: 8.2% // WASTE MARKET INDEX: WOOD DVS +10% // GLOBAL LOGISTICS STATUS: ALL HUBS OPERATIONAL
+        </div>
     </footer>
 </div>
 
