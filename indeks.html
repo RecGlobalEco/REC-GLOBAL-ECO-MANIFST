@@ -1,127 +1,45 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAL CORE | RECYCLING & ARBITRAGE</title>
     <style>
-        :root {
-            --bg: #050705;
-            --green: #00ff41;
-            --orange: #f59e0b;
-            --red: #ff0000;
-            --border: #1a1a1a;
-        }
+  body { 
+    background: #050505; /* Tło */
+    color: #00ff41;      /* Zielony tekst (Terminal) */
+    font-family: 'Courier New', monospace; 
+    margin: 0; 
+    padding: 20px; 
+  }
 
-        body { 
-            background: #000; color: var(--green); font-family: 'Courier New', monospace; 
-            margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden;
-        }
+  .terminal {
+    border: 2px solid #00ff41; 
+    padding: 20px;
+    background: #000;
+    box-shadow: 0 0 15px #004d1a;
+  }
 
-        .app-container {
-            width: 100%; max-width: 480px; height: 100%;
-            background: var(--bg); display: flex; flex-direction: column;
-            border-left: 1px solid var(--border); border-right: 1px solid var(--border);
-        }
+  .header {
+    text-align: center;
+    border-bottom: 2px solid #00ff41;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
 
-        /* NAGŁÓWEK - TWOJE FINANSE */
-        header {
-            padding: 10px 15px; background: #0a0a0a; border-bottom: 2px solid var(--green);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .budget-val { font-size: 24px; font-weight: bold; }
+  .blink {
+    animation: blinker 1.5s linear infinite;
+  }
 
-        /* MONITORING: MASZYNA (GÓRA) */
-        .video-box {
-            height: 25%; position: relative; background: #000; border-bottom: 1px solid var(--border);
-        }
-        .live-tag {
-            position: absolute; top: 10px; left: 10px; background: var(--red); color: white;
-            padding: 3px 8px; font-size: 10px; font-weight: bold; border-radius: 3px; z-index: 5;
-            animation: blink 1s infinite;
-        }
+  @keyframes blinker {
+    50% { opacity: 0; }
+  }
+</style>
 
-        /* DWIE MAPY: TWÓJ PRZEPŁYW (ŚRODEK) */
-        .maps-grid { height: 30%; display: grid; grid-template-rows: 1fr 1fr; gap: 2px; background: var(--border); }
-        .map-layer { position: relative; background: #080808; overflow: hidden; cursor: pointer; }
-        .map-label { position: absolute; top: 5px; left: 5px; font-size: 9px; background: rgba(0,0,0,0.8); padding: 2px 5px; z-index: 2; border: 1px solid var(--green); }
-        .map-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; filter: invert(1) hue-rotate(90deg); }
-        .alert-arrow { position: absolute; top: 30%; left: 40%; font-size: 30px; color: var(--red); animation: bounce 1s infinite; display: none; }
+<div class="terminal">
+  <div class="header">
+    <h1>[ SYSTEM RADAMOWY AKTYWNY ]</h1>
+    <p class="blink">>>> WDROŻENIE MANIFESTU / ARMIA RADAP <<<</p>
+  </div>
 
-        /* PANEL LICYTACJI I BOT (DÓŁ) */
-        .bot-section { flex-grow: 1; padding: 10px; overflow-y: auto; background: #000; font-size: 12px; }
-        .bot-log { color: #888; margin-bottom: 2px; }
-        .bot-action { color: var(--orange); font-weight: bold; }
-
-        /* PRZYCISKI AKCJI */
-        .action-bar { padding: 10px; background: #0a0a0a; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn { padding: 12px; border: 1px solid var(--green); background: transparent; color: var(--green); cursor: pointer; font-weight: bold; font-family: inherit; }
-        .btn-main { background: var(--green); color: #000; }
-
-        @keyframes blink { 50% { opacity: 0.2; } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-    </style>
-</head>
-<body>
-
-<div class="app-container">
-    <header>
-        <div style="font-size: 10px;">RECGLOBAL <span style="color:var(--orange)">ECO-PRO</span></div>
-        <div class="budget-val" id="price">125.30 PLN</div>
-    </header>
-
-    <!-- MONITOR MASZYNY -->
-    <div class="video-box">
-        <div class="live-tag">● LIVE FEED: UNIT_GAL_01</div>
-        <div style="display:flex; align-items:center; justify-content:center; height:100%; color:#222;">[ STREAM PRACY MASZYNY ]</div>
-    </div>
-
-    <!-- DWIE MAPY: FLOTA I KLIENT -->
-    <div class="maps-grid">
-        <div class="map-layer" onclick="toggleAlert()">
-            <div class="map-label">📍 FLOTA: MASZYNY WUJA</div>
-            <img src="https://api.placeholder.com" class="map-img">
-            <div id="warn-arrow" class="alert-arrow">⬇️</div>
-        </div>
-        <div class="map-layer">
-            <div class="map-label" style="border-color:var(--orange)">🚚 LOGISTYKA: PRZESYŁKI KLIENTÓW</div>
-            <img src="https://api.placeholder.com" class="map-img" style="filter:invert(1) hue-rotate(200deg) opacity(0.2);">
-        </div>
-    </div>
-
-    <!-- LOGI BOTA (Z TWOJEGO SKRINA) -->
-    <div class="bot-section" id="logs">
-        <div class="bot-log">> System: Skanowanie konkurencji...</div>
-        <div class="bot-log">> Rynek: Cena średnia 130.00 PLN</div>
-        <div class="bot-action">> BOT: Licytacja +0.20 PLN (Automatyczne przebicie)</div>
-    </div>
-
-    <div class="action-bar">
-        <button class="btn" onclick="alert('Regulamin Zarządzania Podmiotem #23: Aktywny')">ZARZĄDZANIE</button>
-        <button class="btn btn-main">KUP OKAZJĘ</button>
-    </div>
+  <div class="content">
+    <p>MANIFEST ARMII RADAP: Wkraczamy w nową erę odpadu...</p>
+    <!-- Tu wstaw obrazek, upewnij się że plik logo.png jest na GitHubie! -->
+    <img src="logo.png" alt="Logo" style="max-width: 100%;">
+  </div>
 </div>
 
-<script>
-    let p = 125.30;
-    const logs = document.getElementById('logs');
-    
-    // Automat licytacji z Twojego skrina
-    setInterval(() => {
-        p += 0.20;
-        document.getElementById('price').innerText = p.toFixed(2) + " PLN";
-        let entry = document.createElement('div');
-        entry.className = "bot-action";
-        entry.innerText = `> BOT: Licytacja +0.20 PLN (Automatyczne przebicie)`;
-        logs.prepend(entry);
-    }, 4000);
-
-    function toggleAlert() {
-        const arrow = document.getElementById('warn-arrow');
-        arrow.style.display = (arrow.style.display === 'none' || arrow.style.display === '') ? 'block' : 'none';
-        if(arrow.style.display === 'block') alert("⚠️ AWARIA JEDNOSTKI! Sprawdź podgląd wideo.");
-    }
-</script>
-
-</body>
-</html>
