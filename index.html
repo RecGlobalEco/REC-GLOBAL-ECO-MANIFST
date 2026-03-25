@@ -3,142 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>REC-GLOBAL | HYBRID DASHBOARD</title>
+    <title>REC-GLOBAL | RADAME HUB</title>
     <style>
-        :root { --green: #00ff41; --dark: #050505; --panel-bg: rgba(0, 255, 65, 0.07); }
+        :root { --green: #00ff41; --dark: #050505; --panel-bg: rgba(0, 255, 65, 0.05); }
         * { box-sizing: border-box; font-family: 'Courier New', monospace; }
-        body { background: var(--dark); color: var(--green); margin: 0; padding: 0; overflow-x: hidden; }
+        body { background: var(--dark); color: var(--green); margin: 0; overflow-x: hidden; }
 
         /* NAGŁÓWEK */
         header {
-            height: 60px; border-bottom: 1px solid var(--green);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 15px; font-size: 12px; background: rgba(0,0,0,0.9);
-            position: sticky; top: 0; z-index: 100;
+            padding: 10px 15px; border-bottom: 2px solid var(--green);
+            background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 100;
         }
 
-        /* GŁÓWNY KONTENER */
-        #main-container {
+        /* DASHBOARD - UKŁAD POZIOMY (TABLET/PC) */
+        #dashboard {
             display: grid; padding: 10px; gap: 10px;
-            grid-template-columns: 280px 1fr 320px; /* Layout poziomy (Desktop/Tablet) */
-            height: calc(100vh - 110px);
+            grid-template-columns: 280px 1fr 320px; 
+            height: calc(100vh - 100px);
         }
 
         .panel { 
             border: 1px solid var(--green); background: var(--panel-bg); 
-            padding: 10px; position: relative; overflow: hidden;
+            padding: 12px; position: relative; overflow-y: auto;
         }
 
-        /* STYLIZACJA OKNA GŁÓWNEGO (LICYTACJA) */
-        .main-auction { grid-column: 2/3; display: flex; flex-direction: column; }
-        #main-item-display { 
-            flex: 1; border: 1px dashed var(--green); margin: 10px 0;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(0,255,65,0.02);
-        }
-
-        /* SIATKA PRODUKTÓW KUP TERAZ */
-        #products-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;
-        }
-        .mini-card {
-            border: 1px solid var(--green); padding: 5px; font-size: 10px;
-            background: rgba(0,0,0,0.5);
-        }
-
-        /* RESPONSYWNOŚĆ - PIONOWY TELEFON */
-        @media (max-width: 768px) {
-            #main-container {
+        /* TRYB PIONOWY (TELEFON) */
+        @media (max-width: 800px) {
+            #dashboard {
                 display: flex; flex-direction: column; height: auto;
             }
-            .side-panel { order: 3; } /* Logi idą na dół */
-            .main-auction { order: 1; height: 400px; } /* Główne okno na górę */
-            #products-grid { order: 2; } /* Kup teraz w środku */
+            header { flex-direction: column; height: auto; gap: 10px; text-align: center; }
+            .side-panel { order: 3; height: 250px; } /* Logi na dół */
+            .main-content { order: 1; min-height: 400px; } /* Aukcja na górę */
+            .auction-list { order: 2; } /* Produkty w środku */
         }
 
-        /* PRZYCISKI */
-        .btn { background: var(--green); color: #000; border: none; padding: 5px 10px; font-weight: bold; cursor: pointer; }
-        .ticker { 
-            height: 40px; border-top: 1px solid var(--green); background: #000;
-            display: flex; align-items: center; overflow: hidden; white-space: nowrap;
+        /* PRZYCISKI I RAMKI */
+        .btn { background: var(--green); color: #000; border: none; padding: 8px 12px; font-weight: bold; cursor: pointer; }
+        .log { font-size: 11px; margin-bottom: 5px; border-left: 2px solid var(--green); padding-left: 8px; }
+        
+        /* SYMULACJA FILMU / MAPY */
+        .video-placeholder {
+            width: 100%; height: 200px; border: 1px dashed #333; 
+            display: flex; align-items: center; justify-content: center; margin: 10px 0;
         }
-        .scroll { animation: scroll 30s linear infinite; display: inline-block; }
-        @keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
     </style>
 </head>
 <body>
 
 <header>
-    <div>REC: <span id="balance">100.00</span></div>
-    <div style="font-weight: bold; color:#fff;">RADAME TERMINAL</div>
-    <button class="btn" onclick="alert('SYNCING...')">SYNC UNIT</button>
+    <div>UNIT: RADAME-HQ | <span id="clock">00:00:00</span></div>
+    <div>BALANCE: <span id="balance" style="color:#fff;">100.00</span> $REC</div>
+    <button class="btn" onclick="alert('SYNCING...')">CONNECT WALLET</button>
 </header>
 
-<div id="main-container">
+<div id="dashboard">
     <div class="panel side-panel">
-        <strong>SYSTEM LOGS</strong>
-        <div id="logs" style="font-size: 10px; margin-top: 10px;"></div>
+        <strong>SOLANA DePIN NODES</strong>
+        <div style="font-size: 11px; margin-top:10px;">
+            <div style="color:#fff;">> NODE_X1: ACTIVE (1.2 $REC)</div>
+            <div style="color:#fff; margin-top:5px;">> NODE_X2: STANDBY (DUBAI)</div>
+        </div>
+        <hr style="border:0; border-top:1px solid #222; margin: 15px 0;">
+        <strong>MACHINE TELEMETRY</strong>
+        <div id="logs" style="margin-top:5px;"></div>
     </div>
 
-    <div class="panel main-auction">
-        <strong>LIVE AUCTION: LOT #7721</strong>
-        <div id="main-item-display">
+    <div class="panel main-content">
+        <strong>LIVE AUCTION: LOT #14 (PLYWOOD)</strong>
+        <div class="video-placeholder">
             <div style="text-align: center;">
-                <span style="font-size: 50px;">🏗️</span><br>
-                <strong id="main-item-name">PROTOTYP MASZYNY X-1</strong><br>
-                CURRENT BID: <span id="main-price">2.45</span> SOL
+                <span style="font-size: 40px;">🏗️</span><br>
+                [ OBRAZ MASZYNY / PROTOTYPU ]
             </div>
         </div>
-        <button class="btn" style="width: 100%; height: 50px; font-size: 20px;">PLACE BID</button>
-    </div>
-
-    <div class="panel" id="products-grid">
-        <div style="grid-column: 1/3;"><strong>KUP TERAZ (EKO-MATERIAŁY)</strong></div>
-        <div class="mini-card">
-            Płyta R-9<br>Cena: 0.1 SOL<br>
-            <button class="btn" style="font-size: 9px;">KUP</button>
-        </div>
-        <div class="mini-card">
-            Granulat B3<br>Cena: 0.2 SOL<br>
-            <button class="btn" style="font-size: 9px;">KUP</button>
-        </div>
-        <div class="mini-card">
-            Profil S-1<br>Cena: 0.5 SOL<br>
-            <button class="btn" style="font-size: 9px;">KUP</button>
-        </div>
-        <div class="mini-card">
-            Mata Eko<br>Cena: 0.3 SOL<br>
-            <button class="btn" style="font-size: 9px;">KUP</button>
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-top:10px;">
+            <div>BID: <span id="price" style="font-size: 20px; color:#fff;">5,800</span> USD</div>
+            <button class="btn" style="height:40px;">BID NOW</button>
         </div>
     </div>
-</div>
 
-<div class="ticker">
-    <div class="scroll">
-        SOLANA: $188.20 // REC-TOKEN: $0.00041 // NEW ORDER FROM BERLIN // NODE STATUS: ONLINE // 
+    <div class="panel auction-list">
+        <strong>BUY NOW: EKO-RESOURCES</strong>
+        <div id="products" style="margin-top:10px;">
+            </div>
     </div>
 </div>
 
 <script>
-    // Symulacja zmiany ceny w oknie głównym
-    setInterval(() => {
-        const price = document.getElementById('main-price');
-        price.innerText = (parseFloat(price.innerText) + 0.01).toFixed(2);
-    }, 3000);
+    // Zegar
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-    // Dynamiczne logi
-    const messages = ["> BLOCK CONFIRMED", "> UNIT SYNCED", "> NEW BID: 2.46 SOL", "> HUB ACTIVE"];
+    // Cena aukcji idzie w górę
+    setInterval(() => {
+        const p = document.getElementById('price');
+        p.innerText = (parseInt(p.innerText.replace(',','')) + 15).toLocaleString();
+    }, 4000);
+
+    // Dynamiczne logi maszyn
+    const msgs = ["> CORE TEMP OK", "> SYNCED BLOCK", "> LOAD: 72%", "> PRESSURE NOMINAL"];
     setInterval(() => {
         const l = document.getElementById('logs');
         const d = document.createElement('div');
-        d.innerText = messages[Math.floor(Math.random()*messages.length)];
+        d.className = 'log';
+        d.innerText = msgs[Math.floor(Math.random()*msgs.length)];
         l.prepend(d);
-        if(l.children.length > 15) l.lastChild.remove();
-    }, 2000);
+        if(l.children.length > 8) l.lastChild.remove();
+    }, 2500);
+
+    // Lista produktów kup teraz
+    const items = ["Profil Eko-S1", "Płyta Recykling", "Mata Izolacyjna"];
+    function addProd() {
+        const div = document.getElementById('products');
+        const i = items[Math.floor(Math.random()*items.length)];
+        const entry = document.createElement('div');
+        entry.style.cssText = "border:1px solid #222; padding:8px; margin-bottom:10px; background:rgba(0,0,0,0.3);";
+        entry.innerHTML = `<small>ID: ${Math.random().toString(16).substring(8)}</small><br><strong>${i}</strong><br>PRICE: 0.45 SOL <button class="btn" style="font-size:9px; float:right;">BUY</button>`;
+        div.prepend(entry);
+        if(div.children.length > 4) div.lastChild.remove();
+    }
+    setInterval(addProd, 5000);
 </script>
 
 </body>
 </html>
-
-
-
