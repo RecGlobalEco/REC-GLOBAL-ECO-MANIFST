@@ -3,74 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RecGlobalEco</title>
+<title>RecGlobalEco System</title>
 
 <style>
 body {
   margin:0;
-  font-family:Arial;
-  background:#081712;
-  color:#d8ffe0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at center, #0b1f17, #030a07);
+  color:#b6ffd2;
 }
 
 /* HEADER */
 header {
   display:flex;
   justify-content:space-between;
-  padding:12px;
-  background:#0f241c;
-  font-size:14px;
+  padding:10px 15px;
+  background:#06110d;
+  border-bottom:1px solid #00ff9955;
+  font-size:13px;
+}
+
+.status {
+  color:#00ff99;
 }
 
 /* GRID */
 .container {
   display:grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap:10px;
   padding:10px;
 }
 
-/* MOBILE */
 @media(max-width:900px){
   .container {
     grid-template-columns:1fr;
   }
 }
 
-/* BOX */
+/* BOX STYLE */
 .box {
-  background:#10281f;
+  background:linear-gradient(145deg,#0a1f18,#06110d);
+  border:1px solid #00ff9933;
   border-radius:12px;
   padding:10px;
+  box-shadow:0 0 20px #00ff9922;
   position:relative;
+}
+
+/* TITLE */
+.box h3 {
+  font-size:13px;
+  color:#00ffaa;
+  margin-bottom:5px;
 }
 
 /* LIVE */
 .live img {
   width:100%;
   border-radius:10px;
+  opacity:0.85;
 }
 
+/* GRID OVERLAY */
+.grid-overlay::after {
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background-image: linear-gradient(#00ff2211 1px, transparent 1px),
+                    linear-gradient(90deg,#00ff2211 1px, transparent 1px);
+  background-size:30px 30px;
+}
+
+/* PRODUCTS */
 .products {
   position:absolute;
   bottom:10px;
   left:10px;
   display:none;
-  gap:8px;
-  flex-wrap:wrap;
+  gap:10px;
 }
 
 .product {
-  background:#000a;
+  background:#001a11cc;
+  border:1px solid #00ff99;
   padding:6px;
+  font-size:11px;
   border-radius:6px;
-  font-size:12px;
-}
-
-/* AUCTION */
-.price {
-  font-size:26px;
-  color:#00ff99;
 }
 
 /* BUTTONS */
@@ -80,66 +102,63 @@ button {
   margin-top:5px;
   border:none;
   border-radius:6px;
+  cursor:pointer;
 }
 
-.bid { background:#ff9933; }
-.buy { background:#00cc66; }
+.bid { background:#ffaa33; }
+.buy { background:#00ff99; }
 
-/* MAPY */
-.maps {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+/* PRICE */
+.price {
+  font-size:28px;
+  color:#00ff99;
+  text-shadow:0 0 10px #00ff99;
 }
 
-@media(max-width:600px){
-  .maps {
-    grid-template-columns:1fr;
-  }
-}
-
+/* MAP */
 .map {
   height:180px;
-  background:#0f241c;
-  border-radius:10px;
   position:relative;
+  border-radius:10px;
   overflow:hidden;
+  background:#02100a;
 }
 
-/* ANIMACJA AUT */
+/* VEHICLES */
 .vehicle {
-  width:8px;
-  height:8px;
+  width:6px;
+  height:6px;
   background:#00ffcc;
   border-radius:50%;
   position:absolute;
-  animation:move 8s linear infinite;
+  box-shadow:0 0 10px #00ffcc;
+  animation:move 10s linear infinite;
 }
 
 @keyframes move {
-  0% { left:0; top:50%; }
+  0% { left:0; top:60%; }
   50% { left:70%; top:20%; }
   100% { left:100%; top:70%; }
 }
 
-/* TRANSPORT */
+/* TRANSPORT LINES */
 .line {
   position:absolute;
   width:100%;
   height:2px;
   background:linear-gradient(90deg, transparent, #00ff99, transparent);
-  animation:flow 3s infinite;
+  animation:flow 4s infinite;
 }
 
 @keyframes flow {
-  0% { opacity:0; transform:translateX(-100%); }
+  0% { transform:translateX(-100%); opacity:0; }
   50% { opacity:1; }
   100% { transform:translateX(100%); opacity:0; }
 }
 
 /* CLIENT */
-.client {
-  font-size:14px;
+.client p {
+  font-size:12px;
 }
 
 /* CHAT */
@@ -148,16 +167,13 @@ button {
   bottom:10px;
   right:10px;
   width:220px;
-  background:#0f241c;
+  background:#06110d;
+  border:1px solid #00ff9933;
   border-radius:10px;
   padding:8px;
 }
 
-.chat input {
-  width:100%;
-}
-
-/* MAP MODAL */
+/* MODAL MAP */
 .modal {
   display:none;
   position:fixed;
@@ -171,85 +187,86 @@ button {
 .modal iframe {
   width:95%;
   height:90%;
-  border:0;
 }
 </style>
+
 </head>
 
 <body>
 
 <header>
-  <div>🌱 RecGlobalEco</div>
-  <div>🟢 GLOBAL ACTIVE</div>
+  <div>🌱 RECGLOBALECO SYSTEM</div>
+  <div class="status">● ALL SYSTEMS ACTIVE</div>
 </header>
 
 <div class="container">
 
-  <!-- MAPA GLOBAL -->
-  <div class="box">
-    <h4>🌍 GLOBAL IMPACT</h4>
-    <div class="map" onclick="openMap()">
-      <div class="vehicle"></div>
-      <div class="vehicle" style="animation-delay:2s;"></div>
-      <div class="vehicle" style="animation-delay:4s;"></div>
-    </div>
+  <!-- GLOBAL MAP -->
+  <div class="box map grid-overlay" onclick="openMap()">
+    <h3>GLOBAL NETWORK</h3>
+    <div class="vehicle"></div>
+    <div class="vehicle" style="animation-delay:3s"></div>
   </div>
 
-  <!-- LIVE -->
-  <div class="box live">
-    <h4>🔴 LIVE STREAM</h4>
+  <!-- LIVE STREAM -->
+  <div class="box live grid-overlay">
+    <h3>LIVE PROCESSING</h3>
     <img src="https://images.unsplash.com/photo-1581093458791-9d42c7b9a3c2">
 
     <div class="products" id="products">
-      <div class="product">Sklejka 500$</div>
-      <div class="product">Palety 300$</div>
+      <div class="product">PLYWOOD 500$</div>
+      <div class="product">PALLETS 300$</div>
     </div>
 
-    <button onclick="toggleLive()">Włącz sprzedaż LIVE</button>
+    <button onclick="toggleLive()">AKTYWUJ SPRZEDAŻ LIVE</button>
   </div>
 
-  <!-- AUKCJA -->
+  <!-- AUCTION -->
   <div class="box">
-    <h4>💰 AUKCJA</h4>
+    <h3>LIVE AUCTION</h3>
     <div class="price" id="price">5800 USD</div>
     <p id="timer"></p>
 
-    <button class="bid" onclick="bid()">Przebij</button>
-    <button class="buy" onclick="buy()">Kup teraz</button>
+    <button class="bid" onclick="bid()">PRZEBIJ</button>
+    <button class="buy" onclick="buy()">KUP TERAZ</button>
   </div>
 
-  <!-- MAPY 2 -->
-  <div class="box maps">
+  <!-- MAPS -->
+  <div class="box">
+    <h3>LOGISTICS</h3>
+
     <div class="map">
-      🚛 FLOTA
+      🚛 FLEET
       <div class="vehicle"></div>
     </div>
 
-    <div class="map">
+    <div class="map" style="margin-top:5px;">
       📦 TRANSPORT
       <div class="line"></div>
     </div>
   </div>
 
-  <!-- KLIENT -->
+  <!-- CLIENT -->
   <div class="box client">
-    <h4>📦 MOJE ZAMÓWIENIA</h4>
-    <p>Sklejka 9mm</p>
-    <p>🚚 W drodze</p>
-    <button onclick="openMap()">Śledź</button>
+    <h3>CLIENT PANEL</h3>
+    <p>Order: Plywood</p>
+    <p>Status: IN TRANSIT</p>
+    <p>Source: MACHINE</p>
+
+    <button onclick="openMap()">TRACK</button>
   </div>
 
 </div>
 
-<!-- MAPA -->
+<!-- MAP MODAL -->
 <div class="modal" id="mapModal" onclick="closeMap()">
   <iframe src="https://maps.google.com/maps?q=world&t=&z=3&output=embed"></iframe>
 </div>
 
 <!-- CHAT -->
 <div class="chat">
-  <b>Czat</b>
-  <input placeholder="Napisz...">
+  <b>CHAT</b>
+  <input placeholder="message..." style="width:100%">
 </div>
 
 <script>
@@ -263,7 +280,7 @@ function bid(){
 }
 
 function buy(){
-  alert("Kupiono!");
+  alert("TRANSACTION COMPLETE");
 }
 
 function toggleLive(){
@@ -284,10 +301,11 @@ setInterval(()=>{
   if(time>0){
     time--;
     document.getElementById("timer").innerText =
-      "Koniec za: " + time + "s";
+      "ENDS IN: " + time + "s";
   }
 },1000);
 </script>
 
 </body>
 </html>
+  
