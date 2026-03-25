@@ -3,25 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RecGlobalEco | HUB OPERACYJNY</title>
+    <title>RecGlobalEco | MANIFEST RADAME</title>
     <style>
-        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
-        .border { border: 2px solid #00ff41; padding: 40px; box-shadow: 0 0 20px #004d1a; background: rgba(0,0,0,0.9); border-radius: 15px; }
+        body { 
+            background-color: #050505; 
+            color: #00ff41; 
+            font-family: 'Courier New', monospace; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center;
+        }
+        .container { 
+            border: 2px solid #00ff41; 
+            padding: 30px; 
+            box-shadow: 0 0 25px #004d1a; 
+            background: rgba(0,0,0,0.95); 
+            max-width: 800px; 
+            width: 100%; 
+            border-radius: 10px;
+        }
+        .header { 
+            text-align: center; 
+            border-bottom: 2px solid #00ff41; 
+            padding-bottom: 20px; 
+            margin-bottom: 30px; 
+        }
         .blink { animation: b 1.5s infinite; }
-        @keyframes b { 0%, 100% { opacity: 1; } 50% { opacity: 0.1; } }
-        .btn { display: inline-block; margin-top: 20px; padding: 15px 30px; border: 2px solid #00ff41; color: #00ff41; text-decoration: none; font-weight: bold; text-transform: uppercase; }
-        .btn:hover { background: #00ff41; color: #000; }
+        @keyframes b { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        
+        .manifest-text { 
+            white-space: pre-wrap; 
+            line-height: 1.6; 
+            font-size: 1.1em; 
+            color: #00ff41;
+            text-shadow: 0 0 5px #004d1a;
+        }
+        
+        .system-status {
+            background: #002200;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            border-left: 4px solid #00ff41;
+        }
+
+        .action-btn { 
+            display: block; 
+            width: fit-content; 
+            margin: 40px auto 0; 
+            padding: 15px 40px; 
+            background: #00ff41; 
+            color: #000; 
+            font-weight: bold; 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .action-btn:hover { 
+            box-shadow: 0 0 20px #00ff41; 
+            transform: scale(1.05);
+        }
+        hr { border: 0; border-top: 1px solid #004d1a; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="border">
-        <h1>[ SYSTEM RECEKO.PL AKTYWNY ]</h1>
-        <p class="blink">>>> ŁĄCZENIE Z FLOTĄ ASTERIX & OBELIX <<<</p>
-        <p>RECYKLING ODPADÓW: W TOKU</p>
-        <p>STATUS PRODUKCJI: GAL PROTOCOL v2.0</p>
-        <hr color="#00ff41">
-        <a href="mailto:biuro@receko.pl" class="btn">KONTAKT OPERACYJNY</a>
+
+    <div class="container">
+        <div class="header">
+            <h1 style="margin: 0;">[ SYSTEM RADAME ACTIVE ]</h1>
+            <p class="blink">>>> PROTOKÓŁ MANIFESTU ZAŁADOWANY <<<</p>
+        </div>
+
+        <div class="manifest-text">
+### MANIFEST OPERACYJNY: REC-GLOBAL-ECO ###
+
+Wkraczamy w nową erę gospodarki odpadami. 
+System operacyjny Armii RADAP w gotowości.
+Flota Asterix & Obelix rozpoczyna procedury.
+
+Nasz cel: Pełna cyfryzacja i optymalizacja recyklingu.
+Status produkcji płyt: GAL v2.0 - Stabilny.
+Lokalizacja: HUB GLOBALNY - Aktywny.
+
+Zasoby są ograniczone. Nasza determinacja - nie.
+Działamy w cieniu, budujemy w świetle.
+        </div>
+
+        <div class="system-status">
+            STATUS: POŁĄCZONO Z DOMENĄ RECGLOBAL.PL<br>
+            SZYFROWANIE: AKTYWNE<br>
+            BATERIA: 100% | SYGNAŁ: MAX
+        </div>
+
+        <hr>
+
+        <a href="mailto:biuro@receko.pl" class="btn action-btn">KONTAKT Z ARMIA</a>
+        
+        <p style="text-align: center; font-size: 0.7em; margin-top: 20px; color: #004d1a;">
+            &copy; 2026 RECGLOBAL POLAND | ALL RIGHTS RESERVED
+        </p>
     </div>
+
 </body>
 </html>
-
