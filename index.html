@@ -2,110 +2,252 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-GLOBAL | HUB RADAME</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>REC-GLOBAL | RADAME COMMAND CENTER</title>
     <style>
-        :root { --green: #00ff41; --dark: #0a0a0a; }
-        body { background-color: var(--dark); color: var(--green); font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
+        :root { --green: #00ff41; --dark: #050505; --panel-bg: rgba(0, 255, 65, 0.05); }
         
-        /* Górny pasek - STATUS & WALLET */
-        #header { border-bottom: 2px solid var(--green); padding: 10px; display: flex; justify-content: space-between; background: rgba(0,255,65,0.05); }
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--dark); 
+            color: var(--green); 
+            font-family: 'Courier New', monospace; 
+            margin: 0; 
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* BLOKADA ORIENTACJI */
+        #orientation-warning {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--dark);
+            z-index: 9999;
+            text-align: center;
+            padding-top: 20%;
+        }
+        @media (orientation: portrait) {
+            #orientation-warning { display: block; }
+        }
+
+        /* STRUKTURA DASHBOARDU (WZÓR TABLETU) */
+        #main-dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            grid-template-rows: 50px 1fr 60px;
+            height: 100vh;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .panel {
+            border: 1px solid var(--green);
+            background: var(--panel-bg);
+            padding: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,255,65,0.1);
+        }
+
+        /* NAGŁÓWEK */
+        header {
+            grid-column: 1 / 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--green);
+            padding: 0 20px;
+        }
+
+        /* LEWA KOLUMNA: MASZYNY & LOGISTYKA */
+        .left-col { grid-row: 2 / 3; display: flex; flex-direction: column; gap: 10px; }
         
-        /* Kontener Mapy */
-        #map-container { width: 100%; height: 50vh; border-bottom: 2px solid var(--green); background: #111; position: relative; }
-        #map-overlay { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 10px; font-size: 12px; border: 1px solid var(--green); }
+        /* ŚRODEK: MAPA / STREAM */
+        .center-col { grid-row: 2 / 3; }
+        
+        /* PRAWA KOLUMNA: AUKCJE */
+        .right-col { grid-row: 2 / 3; }
 
-        /* Panel Aukcji i Czat */
-        #bottom-panel { display: flex; height: 40vh; }
-        #auctions { width: 60%; border-right: 2px solid var(--green); padding: 10px; overflow-y: auto; }
-        #chat { width: 40%; padding: 10px; background: rgba(0,255,65,0.02); }
+        /* STOPKA: TICKER */
+        footer {
+            grid-column: 1 / 4;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--green);
+            white-space: nowrap;
+            overflow: hidden;
+        }
 
-        .log-entry { margin-bottom: 5px; font-size: 13px; border-left: 3px solid var(--green); padding-left: 10px; }
-        .btn { background: var(--green); color: var(--dark); border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
+        .ticker-wrap {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* STYLIZACJA ELEMENTÓW */
+        .btn {
+            background: var(--green);
+            color: var(--dark);
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
         .btn:hover { background: #fff; }
-        
-        /* Powiadomienie o Airdropie */
-        #airdrop-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid #fff; background: var(--dark); padding: 20px; z-index: 100; text-align: center; box-shadow: 0 0 20px var(--green); }
+
+        .log-entry {
+            font-size: 11px;
+            margin-bottom: 8px;
+            border-left: 2px solid var(--green);
+            padding-left: 8px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* POPUP AIRDROP */
+        #airdrop-popup {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--dark);
+            border: 2px solid #fff;
+            padding: 30px;
+            z-index: 10000;
+            text-align: center;
+            box-shadow: 0 0 30px var(--green);
+        }
     </style>
 </head>
 <body>
 
-<div id="header">
-    <div>SYSTEM: RADAME v1.0 | <span id="clock">00:00:00</span></div>
-    <div>REC TOKEN: <span id="balance">0.00</span> $REC</div>
-    <button class="btn" onclick="connectWallet()">CONNECT UNIT (SOL/BNB)</button>
-</div>
-
-<div id="map-container">
-    <div id="map-overlay">
-        LIVE LOGISTICS MONITOR:<br>
-        > HUB-01: BERLIN (ACTIVE)<br>
-        > HUB-02: DUBAI (PENDING)<br>
-        > TRANSPORT: LOT #4421 -> WARSAW
-    </div>
-    <div style="text-align:center; padding-top:100px; color:#333;">[ GOOGLE MAPS INTERFACE LOADED ]</div>
-</div>
-
-<div id="bottom-panel">
-    <div id="auctions">
-        <strong>LIVE BOT AUCTIONS (RECYCLED PRODUCTS):</strong>
-        <div id="auction-stream"></div>
-    </div>
-    <div id="chat">
-        <strong>SECURE COMMS (SELLER/BOT):</strong>
-        <div id="chat-box" style="height:80%; overflow-y:auto; margin-bottom:10px;"></div>
-        <input type="text" id="chat-input" placeholder="Type message..." style="width:70%; background:#000; color:var(--green); border:1px solid var(--green);">
-        <button onclick="sendMessage()">SEND</button>
-    </div>
+<div id="orientation-warning">
+    <h1 style="color: #fff;">[ SYSTEM ERROR ]</h1>
+    <p>PROSZĘ OBRÓCIĆ URZĄDZENIE POZIOMO (LANDSCAPE)</p>
+    <p style="font-size: 50px;">🔄</p>
 </div>
 
 <div id="airdrop-popup">
-    <h2 style="color:#fff;">! AIRDROP RECEIVED !</h2>
-    <p>You have been allocated <strong>100.00 $REC</strong> for first-time synchronization.</p>
-    <button class="btn" onclick="closePopup()">CLAIM & SYNC</button>
+    <h2 style="color:#fff;">! AIRDROP DETECTED !</h2>
+    <p>SYSTEM ROZPOZNAŁ NOWEGO OPERATORA.<br>PRZYZNANO: <strong>100.00 $REC</strong></p>
+    <button class="btn" onclick="claimAirdrop()">CLAIM & SYNC UNIT</button>
+</div>
+
+<div id="main-dashboard">
+    <header>
+        <div>UNIT: RADAME-HQ | STATUS: <span style="color:#fff;">ENCRYPTED</span></div>
+        <div id="clock">00:00:00</div>
+        <div>BALANCE: <span id="balance">0.00</span> $REC</div>
+        <button class="btn" onclick="triggerConnect()">CONNECT WALLET</button>
+    </header>
+
+    <div class="left-col">
+        <div class="panel" style="flex: 1;">
+            <strong>SOLANA DePIN NODES:</strong>
+            <div style="margin-top:10px; font-size: 11px;">
+                <div style="color:#fff;">> NODE_X1: ACTIVE</div>
+                <div>LOAD: 72% | YIELD: 1.2 $REC</div>
+                <hr style="border:0; border-top:1px solid #222;">
+                <div style="color:#fff;">> NODE_X2: STANDBY</div>
+                <div>HUB: DUBAI | TEMP: 38°C</div>
+            </div>
+        </div>
+        <div class="panel" style="flex: 1;">
+            <strong>MACHINE TELEMETRY:</strong>
+            <div id="telemetry-log" style="font-size: 10px; margin-top:5px;"></div>
+        </div>
+    </div>
+
+    <div class="panel center-col">
+        <strong>GLOBAL IMPACT MONITOR (LIVE)</strong>
+        <div style="height: 90%; display: flex; align-items: center; justify-content: center; border: 1px dashed #333; margin-top:10px;">
+            <div style="text-align: center;">
+                <span style="font-size: 40px;">🌍</span><br>
+                [ MAPA INTERAKTYWNA: HUB-SYSTEM ACTIVE ]<br>
+                <span style="font-size: 10px; color: #555;">WARSAW -> BERLIN -> DUBAI</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel right-col">
+        <strong>LIVE BOT AUCTIONS:</strong>
+        <div id="auction-stream" style="margin-top:10px; height: 90%; overflow-y: hidden;"></div>
+    </div>
+
+    <footer>
+        <div class="ticker-wrap">
+            SOLANA (SOL): $188.42 (+2.4%) // BITCOIN: $64,210 // REC-TOKEN: $0.00041 // RECYCLED MATERIALS PROCESSED: 1,440.22 TONS // NEW ORDER FROM HUB-02...
+        </div>
+    </footer>
 </div>
 
 <script>
-    // Zegar systemowy
-    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+    // ZEGAR
+    setInterval(() => { 
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString(); 
+    }, 1000);
 
-    // Symulacja aukcji botów
-    const products = ["Poly-Slab 2x2", "Eko-Brick Type-C", "Industrial Mesh-X", "Recycled Core-V"];
+    // TELEMETRIA MASZYN
+    const logs = ["> PRESSURE NOMINAL", "> CORE TEMP: 42C", "> RECYCLING UNIT 1: OK", "> SYNCING BLOCK..."];
+    setInterval(() => {
+        const tLog = document.getElementById('telemetry-log');
+        const entry = document.createElement('div');
+        entry.innerText = logs[Math.floor(Math.random()*logs.length)];
+        tLog.prepend(entry);
+        if(tLog.children.length > 8) tLog.lastChild.remove();
+    }, 2000);
+
+    // AUKCJE BOTÓW Z PRODUKTAMI
+    const products = [
+        {n: "PLYTA RECYKLING 20mm", p: "0.12"},
+        {n: "GRANULAT TYP-E", p: "0.08"},
+        {n: "PROFIL EKO-S1", p: "0.45"}
+    ];
+
     function addAuction() {
         const stream = document.getElementById('auction-stream');
-        const p = products[Math.floor(Math.random() * products.length)];
-        const price = (Math.random() * 10).toFixed(2);
+        const prod = products[Math.floor(Math.random()*products.length)];
         const entry = document.createElement('div');
         entry.className = 'log-entry';
-        entry.innerHTML = `> BOT_${Math.floor(Math.random()*999)} placed bid ${price} SOL on <strong>${p}</strong> [HASH: ${Math.random().toString(36).substring(7).toUpperCase()}]`;
+        entry.innerHTML = `
+            <div style="color:#fff; font-size:10px;">PRODUCER: HUB-01</div>
+            <strong>${prod.n}</strong><br>
+            BID: ${prod.p} SOL <button style="font-size:9px; background:none; color:var(--green); border:1px solid var(--green);">BUY</button>
+        `;
         stream.prepend(entry);
+        if(stream.children.length > 10) stream.lastChild.remove();
     }
-    setInterval(addAuction, 3000);
+    setInterval(addAuction, 3500);
 
-    // Logika portfela i dropu
-    function connectWallet() {
-        // Tu podepniemy realne API portfela
-        document.getElementById('airdrop-popup').style.display = 'block';
-    }
+    // LOGIKA PORTFELA I AIRDROP
+    window.onload = () => {
+        const saved = localStorage.getItem('rec_bal');
+        if(saved) document.getElementById('balance').innerText = saved;
+    };
 
-    function closePopup() {
-        document.getElementById('airdrop-popup').style.display = 'none';
-        document.getElementById('balance').innerText = "100.00";
-        alert("Unit Synced. 100 $REC added to pending balance.");
-    }
-
-    function sendMessage() {
-        const input = document.getElementById('chat-input');
-        const box = document.getElementById('chat-box');
-        if(input.value) {
-            box.innerHTML += `<div><strong>YOU:</strong> ${input.value}</div>`;
-            setTimeout(() => {
-                box.innerHTML += `<div style="color:#aaa;"><strong>BOT:</strong> Analyzing stock for "${input.value}"... available in Hub-01.</div>`;
-            }, 1000);
-            input.value = '';
+    function triggerConnect() {
+        if(!localStorage.getItem('airdrop_done')) {
+            document.getElementById('airdrop-popup').style.display = 'block';
+        } else {
+            alert("UNIT ALREADY SYNCED TO SOLANA MAINNET");
         }
+    }
+
+    function claimAirdrop() {
+        localStorage.setItem('rec_bal', '100.00');
+        localStorage.setItem('airdrop_done', 'true');
+        document.getElementById('balance').innerText = "100.00";
+        document.getElementById('airdrop-popup').style.display = 'none';
+        alert("SUCCESS: 100 $REC CREDITED TO YOUR TERMINAL");
     }
 </script>
 
 </body>
 </html>
+
