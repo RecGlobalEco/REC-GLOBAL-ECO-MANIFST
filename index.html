@@ -2,213 +2,74 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GAL: GLOBAL AUCTIONS LIVE & DIGITAL ASSET HUB</title>
+    <title>GAL LIVE | MARKET ARBITRAGE</title>
     <style>
-        :root {
-            --bg-dark: #0a110a;
-            --panel-bg: rgba(20, 30, 20, 0.9);
-            --text-primary: #89b068;
-            --highlight-green: #00ff41;
-            --accent-orange: #f59e0b;
-            --border-color: #2d3d2d;
-        }
-
-        * { box-sizing: border-box; font-family: 'Roboto', 'Segoe UI', Arial, sans-serif; cursor: crosshair; }
+        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
-        body {
-            background-color: #000;
-            color: var(--text-primary);
-            margin: 0;
-            padding: 10px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        /* GŁÓWNY KONTENER TERMINALA */
-        #terminal-hub {
-            width: 100%;
-            height: 100%;
-            max-width: 1300px;
-            background: var(--bg-dark);
-            border: 10px solid #1a1a1a;
-            border-radius: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.8fr 1fr; /* Trzy kolumny jak w oryginale */
-            grid-template-rows: 60px 1fr 60px; /* Header, Body, Footer Ticker */
-            gap: 15px;
-            padding: 20px;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
-        }
-
-        /* NAGŁÓWEK (Top Bar) */
-        header {
-            grid-column: 1 / 4;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        .logo { font-size: 24px; font-weight: bold; color: #fff; }
-        .logo span { color: var(--accent-orange); }
-        .hub-title { font-size: 18px; letter-spacing: 2px; color: #fff; font-weight: lighter; }
-
-        /* PANELE (Wspólne style) */
-        .panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            padding: 15px;
-            position: relative;
-        }
-        .panel-header {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* KOLUMNA 1: GLOBAL IMPACT MONITOR */
-        .impact-panel .map-container {
-            height: 150px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg') center/contain no-repeat;
-            filter: invert(1) sepia(1) saturate(5) hue-rotate(60deg);
-            opacity: 0.3;
-        }
-        .dim-stat { margin-top: 15px; }
-        .stat-val { color: var(--highlight-green); font-size: 24px; font-weight: bold; }
-        .stat-label { font-size: 10px; text-transform: uppercase; }
-
-        /* KOLUMNA 2 (Środek): STREAM + RWA */
-        .center-column { display: flex; flex-direction: column; gap: 15px; }
+        /* LEWA STRONA - VIDEO STREAM (TIKTOK VIBE) */
+        .video-container { flex: 2; position: relative; background: #050505; border-right: 2px solid #333; }
+        .video-feed { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .live-tag { position: absolute; top: 20px; left: 20px; background: red; color: white; padding: 5px 15px; border-radius: 5px; animation: blink 1s infinite; }
         
-        /* LIVE STREAM */
-        .stream-panel { flex: 1.5; display: flex; flex-direction: column; }
-        .video-player {
-            flex: 1;
-            background: #000;
-            border: 1px solid #3d4d3d;
-            display: flex; align-items: center; justify-content: center;
-            position: relative;
-        }
-        .live-label {
-            position: absolute; top: 10px; left: 10px; font-size: 10px; 
-            background: rgba(0,0,0,0.7); padding: 3px 8px; color: #fff;
-        }
-        .live-label span { color: red; font-size: 14px; margin-right: 5px; }
+        /* PRAWA STRONA - LICYTACJA I BOT ARBITRAŻOWY */
+        .auction-sidebar { flex: 1; padding: 20px; display: flex; flex-direction: column; background: #0a0a0a; }
+        .price-box { font-size: 48px; text-align: center; margin: 20px 0; border: 1px solid #00ff41; padding: 10px; }
+        .bid-history { flex-grow: 1; overflow-y: hidden; font-size: 14px; color: #888; }
+        .bot-action { color: #f59e0b; font-weight: bold; }
 
-        /* TOKENIZATION PANEL (RWA) */
-        .rwa-panel { flex: 0.8; }
-        .rwa-grid {
-            display: grid; grid-template-columns: 1fr auto 1.5fr auto 1fr;
-            align-items: center; text-align: center; gap: 10px; margin-top: 10px;
-        }
-        .rwa-asset-box { background: #000; border: 1px solid #333; padding: 10px; }
-        .token-val { color: var(--accent-orange); font-size: 11px; font-family: monospace; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
         
-        /* KOLUMNA 3: AUCTION */
-        .auction-panel { border-color: var(--accent-orange); }
-        .lot-desc { font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 15px; }
-        .bid-info { text-align: center; margin-top: 20px; }
-        .price-tag { font-size: 36px; color: var(--accent-orange); font-weight: bold; }
-        .time-box { font-size: 20px; font-family: monospace; text-align: center; margin-top: 10px; }
-        
-        .action-btns { margin-top: 25px; display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 12px; font-weight: bold; border: none; cursor: pointer; text-transform: uppercase; }
-        .btn-orange { background: var(--accent-orange); color: #000; box-shadow: 0 0 10px var(--accent-orange); }
-        .btn-grey { background: #333; color: #fff; }
-
-        /* STOPKA: TICKER */
-        footer {
-            grid-column: 1 / 4;
-            border-top: 2px solid var(--border-color);
-            display: flex; align-items: center; padding-top: 10px;
-            font-size: 11px; color: var(--text-primary); overflow: hidden; white-space: nowrap;
-        }
-        .ticker-text { animation: scroll 30s linear infinite; }
-        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* RESPONSYWNOŚĆ PIONOWA (Ochrona przed psuciem layoutu na telefonach) */
-        @media (max-width: 850px) {
-            #terminal-hub {
-                display: flex; flex-direction: column; height: auto; border: none; overflow-y: scroll;
-            }
-            body { overflow-y: scroll; }
-        }
+        /* PRZYCISKI */
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn { padding: 15px; border: 1px solid #00ff41; background: transparent; color: #00ff41; cursor: pointer; font-weight: bold; }
+        .btn:hover { background: #00ff41; color: #000; }
     </style>
 </head>
 <body>
 
-<div id="terminal-hub">
-    <header>
-        <div class="logo">Rec<span>Global</span>Eco</div>
-        <div class="hub-title">GAL: GLOBAL AUCTIONS LIVE & DIGITAL ASSET HUB</div>
-    </header>
-
-    <div class="panel impact-panel">
-        <div class="panel-header">GLOBAL IMPACT MONITOR <span>⋮</span></div>
-        <div class="map-container"></div>
-        <div class="dim-stat stat-val">125,430</div>
-        <div class="stat-label">CO2 DIVERTED (MT)</div>
-        <div class="dim-stat stat-val">25,890</div>
-        <div class="stat-label">MATERIAL DIVERTED (TONS)</div>
-        <div style="margin-top:20px; font-size:12px; color:var(--highlight-green)">● ACTIVE HUBS: 3 (Berlin|Dubai|Singapore)</div>
+<div class="video-container">
+    <div class="live-tag">● LIVE FEED: UNIT_GAL_01</div>
+    <div style="display:flex; align-items:center; justify-content:center; height:100%; font-size:20px; color:#333;">
+        [ STREAM WIDEO Z PRACY MASZYNY / TOWARU ]
     </div>
-
-    <div class="center-column">
-        <div class="panel stream-panel">
-            <div class="video-player">
-                <div class="live-label"><span>●</span> LIVE STREAM: SEATTLE CONSTRUCTION SITE 14, USA</div>
-                <div style="font-size:11px;">[ CAMERA FEED HUB-01 // NO RECTANGLE USED ]</div>
-            </div>
-        </div>
-        <div class="panel rwa-panel">
-            <div class="panel-header">TOKENIZATION PANEL (SOLANA CHAIN) <span>⋮</span></div>
-            <div class="rwa-grid">
-                <div class="rwa-asset-box stat-label">WASTE PALLET</div>
-                <div style="font-size:20px;color:#fff">➔</div>
-                <div class="rwa-asset-box stat-label">Compressed Hash</div>
-                <div style="font-size:20px;color:#fff">➔</div>
-                <div class="rwa-asset-box stat-label">Unique Global Token</div>
-            </div>
-            <div style="display:flex; justify-content:center; gap:20px; margin-top:10px;">
-                <div class="token-val">GTK-1450-4E3F-72A1</div>
-                <div style="color:var(--highlight-green); font-size:10px; font-weight:bold;">SECURED & COMPLETE</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel auction-panel">
-        <div class="panel-header">AUCTION <span style="color:var(--highlight-green)">● ACTIVE</span></div>
-        <div class="lot-desc">LOT #14: 10 PALLETS CERTIFIED PLYWOOD (9MM)</div>
-        <div class="bid-info">
-            <div style="font-size:11px; color:#fff;">CURRENT BID:</div>
-            <div class="price-tag">$5,800 USD</div>
-        </div>
-        <div style="font-size:11px; text-align:center; margin-top:10px;">TIME REMAINING:</div>
-        <div class="time-box">00h 14m 28s</div>
-        
-        <div class="action-btns">
-            <button class="btn btn-orange">PLACE BID</button>
-            <button class="btn btn-grey">ALLTON</button>
-            <button class="btn btn-grey">TIMER</button>
-        </div>
-    </div>
-
-    <footer>
-        <div class="ticker-text">
-            // CERTIFIED EKO-RESOURCES: 100% TRACEABLE (ISO 9001, 14001, AST-Certified Boards) // SOLANA (SOL): $145.20 (+4.5%) // JUPITER (JUP): $1.15 (+2.1%) // RECGEO (RGE Token Staking APY): 8.2% // WASTE MARKET INDEX: WOOD DVS: +10% // GLOBAL LOGISTICS STATUS: ALL HUBS OPERATIONAL
-        </div>
-    </footer>
 </div>
+
+<div class="auction-sidebar">
+    <h2 style="margin:0;">GAL ARBITRAGE BOT v1</h2>
+    <p style="font-size: 12px; color: #555;">Skanowanie rynku: Scania, Strabag, OLX...</p>
+    
+    <div class="price-box" id="current-price">124.50 PLN</div>
+    
+    <div class="bid-history" id="history">
+        <div>> System: Skanowanie konkurencji...</div>
+        <div>> Rynek: Cena średnia 130.00 PLN</div>
+        <div class="bot-action">> BOT: Licytacja +0.20 PLN</div>
+        <div class="bot-action">> BOT: Licytacja +0.20 PLN</div>
+    </div>
+
+    <div class="controls">
+        <button class="btn">KUP TERAZ</button>
+        <button class="btn">CZAT Z OBSŁUGĄ</button>
+    </div>
+</div>
+
+<script>
+    // PROSTY ALGORYTM PODBIJANIA CENY (SZYBKI TEST)
+    let price = 124.50;
+    const history = document.getElementById('history');
+    const priceDisplay = document.getElementById('current-price');
+
+    setInterval(() => {
+        price += 0.20;
+        priceDisplay.innerText = price.toFixed(2) + " PLN";
+        let entry = document.createElement('div');
+        entry.className = "bot-action";
+        entry.innerText = `> BOT: Licytacja +0.20 PLN (Automatyczne przebicie)`;
+        history.prepend(entry);
+    }, 3000); // Co 3 sekundy podbija o 20 groszy
+</script>
 
 </body>
 </html>
+
 
