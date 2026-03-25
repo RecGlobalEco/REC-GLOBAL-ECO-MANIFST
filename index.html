@@ -3,108 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RecGlobalEco | MANIFEST RADAME</title>
+    <title>REC-GLOBAL | HUB RADAME</title>
     <style>
-        body { 
-            background-color: #050505; 
-            color: #00ff41; 
-            font-family: 'Courier New', monospace; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center;
-        }
-        .container { 
-            border: 2px solid #00ff41; 
-            padding: 30px; 
-            box-shadow: 0 0 25px #004d1a; 
-            background: rgba(0,0,0,0.95); 
-            max-width: 800px; 
-            width: 100%; 
-            border-radius: 10px;
-        }
-        .header { 
-            text-align: center; 
-            border-bottom: 2px solid #00ff41; 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
-        }
-        .blink { animation: b 1.5s infinite; }
-        @keyframes b { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        :root { --green: #00ff41; --dark: #0a0a0a; }
+        body { background-color: var(--dark); color: var(--green); font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
         
-        .manifest-text { 
-            white-space: pre-wrap; 
-            line-height: 1.6; 
-            font-size: 1.1em; 
-            color: #00ff41;
-            text-shadow: 0 0 5px #004d1a;
-        }
+        /* Górny pasek - STATUS & WALLET */
+        #header { border-bottom: 2px solid var(--green); padding: 10px; display: flex; justify-content: space-between; background: rgba(0,255,65,0.05); }
         
-        .system-status {
-            background: #002200;
-            padding: 10px;
-            margin-top: 20px;
-            font-size: 0.9em;
-            border-left: 4px solid #00ff41;
-        }
+        /* Kontener Mapy */
+        #map-container { width: 100%; height: 50vh; border-bottom: 2px solid var(--green); background: #111; position: relative; }
+        #map-overlay { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 10px; font-size: 12px; border: 1px solid var(--green); }
 
-        .action-btn { 
-            display: block; 
-            width: fit-content; 
-            margin: 40px auto 0; 
-            padding: 15px 40px; 
-            background: #00ff41; 
-            color: #000; 
-            font-weight: bold; 
-            text-decoration: none; 
-            text-transform: uppercase; 
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .action-btn:hover { 
-            box-shadow: 0 0 20px #00ff41; 
-            transform: scale(1.05);
-        }
-        hr { border: 0; border-top: 1px solid #004d1a; margin: 20px 0; }
+        /* Panel Aukcji i Czat */
+        #bottom-panel { display: flex; height: 40vh; }
+        #auctions { width: 60%; border-right: 2px solid var(--green); padding: 10px; overflow-y: auto; }
+        #chat { width: 40%; padding: 10px; background: rgba(0,255,65,0.02); }
+
+        .log-entry { margin-bottom: 5px; font-size: 13px; border-left: 3px solid var(--green); padding-left: 10px; }
+        .btn { background: var(--green); color: var(--dark); border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
+        .btn:hover { background: #fff; }
+        
+        /* Powiadomienie o Airdropie */
+        #airdrop-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid #fff; background: var(--dark); padding: 20px; z-index: 100; text-align: center; box-shadow: 0 0 20px var(--green); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1 style="margin: 0;">[ SYSTEM RADAME ACTIVE ]</h1>
-            <p class="blink">>>> PROTOKÓŁ MANIFESTU ZAŁADOWANY <<<</p>
-        </div>
+<div id="header">
+    <div>SYSTEM: RADAME v1.0 | <span id="clock">00:00:00</span></div>
+    <div>REC TOKEN: <span id="balance">0.00</span> $REC</div>
+    <button class="btn" onclick="connectWallet()">CONNECT UNIT (SOL/BNB)</button>
+</div>
 
-        <div class="manifest-text">
-### MANIFEST OPERACYJNY: REC-GLOBAL-ECO ###
-
-Wkraczamy w nową erę gospodarki odpadami. 
-System operacyjny Armii RADAP w gotowości.
-Flota Asterix & Obelix rozpoczyna procedury.
-
-Nasz cel: Pełna cyfryzacja i optymalizacja recyklingu.
-Status produkcji płyt: GAL v2.0 - Stabilny.
-Lokalizacja: HUB GLOBALNY - Aktywny.
-
-Zasoby są ograniczone. Nasza determinacja - nie.
-Działamy w cieniu, budujemy w świetle.
-        </div>
-
-        <div class="system-status">
-            STATUS: POŁĄCZONO Z DOMENĄ RECGLOBAL.PL<br>
-            SZYFROWANIE: AKTYWNE<br>
-            BATERIA: 100% | SYGNAŁ: MAX
-        </div>
-
-        <hr>
-
-        <a href="mailto:biuro@receko.pl" class="btn action-btn">KONTAKT Z ARMIA</a>
-        
-        <p style="text-align: center; font-size: 0.7em; margin-top: 20px; color: #004d1a;">
-            &copy; 2026 RECGLOBAL POLAND | ALL RIGHTS RESERVED
-        </p>
+<div id="map-container">
+    <div id="map-overlay">
+        LIVE LOGISTICS MONITOR:<br>
+        > HUB-01: BERLIN (ACTIVE)<br>
+        > HUB-02: DUBAI (PENDING)<br>
+        > TRANSPORT: LOT #4421 -> WARSAW
     </div>
+    <div style="text-align:center; padding-top:100px; color:#333;">[ GOOGLE MAPS INTERFACE LOADED ]</div>
+</div>
+
+<div id="bottom-panel">
+    <div id="auctions">
+        <strong>LIVE BOT AUCTIONS (RECYCLED PRODUCTS):</strong>
+        <div id="auction-stream"></div>
+    </div>
+    <div id="chat">
+        <strong>SECURE COMMS (SELLER/BOT):</strong>
+        <div id="chat-box" style="height:80%; overflow-y:auto; margin-bottom:10px;"></div>
+        <input type="text" id="chat-input" placeholder="Type message..." style="width:70%; background:#000; color:var(--green); border:1px solid var(--green);">
+        <button onclick="sendMessage()">SEND</button>
+    </div>
+</div>
+
+<div id="airdrop-popup">
+    <h2 style="color:#fff;">! AIRDROP RECEIVED !</h2>
+    <p>You have been allocated <strong>100.00 $REC</strong> for first-time synchronization.</p>
+    <button class="btn" onclick="closePopup()">CLAIM & SYNC</button>
+</div>
+
+<script>
+    // Zegar systemowy
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+
+    // Symulacja aukcji botów
+    const products = ["Poly-Slab 2x2", "Eko-Brick Type-C", "Industrial Mesh-X", "Recycled Core-V"];
+    function addAuction() {
+        const stream = document.getElementById('auction-stream');
+        const p = products[Math.floor(Math.random() * products.length)];
+        const price = (Math.random() * 10).toFixed(2);
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `> BOT_${Math.floor(Math.random()*999)} placed bid ${price} SOL on <strong>${p}</strong> [HASH: ${Math.random().toString(36).substring(7).toUpperCase()}]`;
+        stream.prepend(entry);
+    }
+    setInterval(addAuction, 3000);
+
+    // Logika portfela i dropu
+    function connectWallet() {
+        // Tu podepniemy realne API portfela
+        document.getElementById('airdrop-popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('airdrop-popup').style.display = 'none';
+        document.getElementById('balance').innerText = "100.00";
+        alert("Unit Synced. 100 $REC added to pending balance.");
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('chat-input');
+        const box = document.getElementById('chat-box');
+        if(input.value) {
+            box.innerHTML += `<div><strong>YOU:</strong> ${input.value}</div>`;
+            setTimeout(() => {
+                box.innerHTML += `<div style="color:#aaa;"><strong>BOT:</strong> Analyzing stock for "${input.value}"... available in Hub-01.</div>`;
+            }, 1000);
+            input.value = '';
+        }
+    }
+</script>
 
 </body>
 </html>
+
