@@ -1,44 +1,183 @@
-<style>
-  body { 
-    background: #050505; /* Tło */
-    color: #00ff41;      /* Zielony tekst (Terminal) */
-    font-family: 'Courier New', monospace; 
-    margin: 0; 
-    padding: 20px; 
-  }
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC GLOBAL | Licytacje LIVE & Tokenizacja</title>
+    <style>
+        :root {
+            --rr-gold: #c5a059;
+            --rr-silver: #e0e0e0;
+            --bg-dark: #0a0a0a;
+        }
 
-  .terminal {
-    border: 2px solid #00ff41; 
-    padding: 20px;
-    background: #000;
-    box-shadow: 0 0 15px #004d1a;
-  }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
 
-  .header {
-    text-align: center;
-    border-bottom: 2px solid #00ff41;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-  }
+        /* Sekcja Portfela (Tokenizacja) */
+        .wallet-section {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid var(--rr-gold);
+            border-radius: 15px;
+            background: rgba(197, 160, 89, 0.05);
+            text-align: center;
+        }
 
-  .blink {
-    animation: blinker 1.5s linear infinite;
-  }
+        .wallet-address {
+            font-family: monospace;
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 5px;
+            display: block;
+            margin: 10px 0;
+            color: var(--rr-gold);
+            word-break: break-all;
+            font-size: 0.9em;
+        }
 
-  @keyframes blinker {
-    50% { opacity: 0; }
-  }
-</style>
+        /* Zegary Analogowe (Styl Rolls-Royce) */
+        .clocks-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
 
-<div class="terminal">
-  <div class="header">
-    <h1>[ SYSTEM RADAMOWY AKTYWNY ]</h1>
-    <p class="blink">>>> WDROŻENIE MANIFESTU / ARMIA RADAP <<<</p>
-  </div>
+        .clock {
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--rr-silver);
+            border-radius: 50%;
+            position: relative;
+            background: radial-gradient(circle, #222, #000);
+        }
 
-  <div class="content">
-    <p>MANIFEST ARMII RADAP: Wkraczamy w nową erę odpadu...</p>
-    <!-- Tu wstaw obrazek, upewnij się że plik logo.png jest na GitHubie! -->
-    <img src="logo.png" alt="Logo" style="max-width: 100%;">
-  </div>
-</div>
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            background: var(--rr-gold);
+            width: 2px;
+            height: 40px;
+            transition: transform 0.5s cubic-bezier(0.4, 2.3, 0.3, 1);
+        }
+
+        .clock-label {
+            text-align: center;
+            font-size: 0.7em;
+            margin-top: 5px;
+            color: var(--rr-silver);
+            text-transform: uppercase;
+        }
+
+        /* Licznik Główny */
+        #countdown {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--rr-gold);
+            text-shadow: 0 0 15px rgba(197, 160, 89, 0.5);
+            margin: 20px 0;
+        }
+
+        .biblia-tag {
+            font-size: 0.8em;
+            letter-spacing: 5px;
+            color: #444;
+            margin-top: 50px;
+            text-transform: uppercase;
+        }
+
+        .btn-live {
+            background: var(--rr-gold);
+            color: black;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
+            text-decoration: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="margin-top: 50px; letter-spacing: 3px;">REC GLOBAL</h1>
+    <div style="color: var(--rr-gold);">PREMIUM LIVE AUCTIONS</div>
+
+    <div class="wallet-section">
+        <div style="font-size: 0.8em; color: var(--rr-silver);">OFFICIAL PROJECT WALLET (TOKENIZATION)</div>
+        <code class="wallet-address" id="walletAddr">0x1234...TWOJ_KOD_PORTFELA...ABCD</code>
+        <button onclick="copyWallet()" style="background: none; border: 1px solid #444; color: #888; cursor: pointer; border-radius: 5px;">Kopiuj Adres</button>
+    </div>
+
+    <div id="countdown">00:00:00:00</div>
+
+    <div class="clocks-container">
+        <div>
+            <div class="clock"><div class="hand" id="h1"></div></div>
+            <div class="clock-label">Live Feed</div>
+        </div>
+        <div>
+            <div class="clock"><div class="hand" id="h2"></div></div>
+            <div class="clock-label">Bidding System</div>
+        </div>
+        <div>
+            <div class="clock"><div class="hand" id="h3"></div></div>
+            <div class="clock-label">Blockchain Sync</div>
+        </div>
+    </div>
+
+    <a href="#" class="btn-live">DOŁĄCZ DO LICYTACJI LIVE</a>
+
+    <div class="biblia-tag">BAYLIVEBIBLIA • LEGACY</div>
+
+    <script>
+        // Funkcja kopiowania portfela
+        function copyWallet() {
+            const addr = document.getElementById('walletAddr').innerText;
+            navigator.clipboard.writeText(addr);
+            alert("Skopiowano adres portfela!");
+        }
+
+        // Licznik
+        function updateCountdown() {
+            const launchDate = new Date("March 31, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = launchDate - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Animacja wskazówek zegarów
+        setInterval(() => {
+            updateCountdown();
+            document.getElementById('h1').style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.getElementById('h2').style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.getElementById('h3').style.transform = `rotate(${Math.random() * 360}deg)`;
+        }, 1000);
+    </script>
+</body>
+</html>
