@@ -1,209 +1,293 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GAL: GLOBAL AUCTIONS LIVE & DIGITAL ASSET HUB</title>
-    <style>
-        :root {
-            --dark-bg: #0d120d;
-            --panel-bg: #141d14;
-            --text-primary: #89b068;
-            --highlight: #00ff41;
-            --accent: #f59e0b;
-            --border-color: #2d3d2d;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RecGlobalEco</title>
 
-        body {
-            background-color: #000;
-            color: var(--text-primary);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 10px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<style>
+body {
+  margin:0;
+  font-family:Arial;
+  background:#081712;
+  color:#d8ffe0;
+}
 
-        /* GŁÓWNY TERMINAL */
-        #main-terminal {
-            width: 100%;
-            height: 100%;
-            max-width: 1400px;
-            background: var(--dark-bg);
-            border: 10px solid #1a1a1a;
-            border-radius: 20px;
-            display: grid;
-            grid-template-columns: 320px 1fr 300px;
-            grid-template-rows: 60px 1fr 80px;
-            gap: 15px;
-            padding: 20px;
-            box-sizing: border-box;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
-        }
+/* HEADER */
+header {
+  display:flex;
+  justify-content:space-between;
+  padding:12px;
+  background:#0f241c;
+  font-size:14px;
+}
 
-        /* NAGŁÓWEK */
-        header {
-            grid-column: 1 / 4;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        .logo { font-size: 24px; font-weight: bold; color: #fff; }
-        .logo span { color: var(--accent); }
-        .hub-title { font-size: 18px; letter-spacing: 2px; color: #fff; }
+/* GRID */
+.container {
+  display:grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap:10px;
+  padding:10px;
+}
 
-        /* PANELE */
-        .panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            padding: 15px;
-            position: relative;
-        }
-        .panel-header {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-        }
+/* MOBILE */
+@media(max-width:900px){
+  .container {
+    grid-template-columns:1fr;
+  }
+}
 
-        /* LEWA STRONA: IMPACT MONITOR */
-        .impact-monitor .map-box {
-            height: 180px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg') center/contain no-repeat;
-            filter: invert(72%) sepia(13%) saturate(614%) hue-rotate(50deg) brightness(88%) contrast(85%);
-            opacity: 0.4;
-        }
-        .stats-row { display: flex; justify-content: space-between; margin-top: 15px; }
-        .stat-val { color: var(--highlight); font-size: 22px; font-weight: bold; }
-        .stat-lbl { font-size: 9px; text-transform: uppercase; }
+/* BOX */
+.box {
+  background:#10281f;
+  border-radius:12px;
+  padding:10px;
+  position:relative;
+}
 
-        /* ŚRODEK: LIVE STREAM */
-        .live-stream { display: flex; flex-direction: column; gap: 15px; }
-        .video-feed {
-            flex-grow: 1;
-            background: #000;
-            border: 1px solid #3d4d3d;
-            position: relative;
-            overflow: hidden;
-        }
-        .video-feed::before {
-            content: "● LIVE STREAM: SEATTLE CONSTRUCTION SITE 14, USA";
-            position: absolute; top: 10px; left: 10px; font-size: 10px; background: rgba(0,0,0,0.6); padding: 3px 8px;
-        }
-        .video-feed img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+/* LIVE */
+.live img {
+  width:100%;
+  border-radius:10px;
+}
 
-        /* DOLNY PANEL ŚRODKOWY: TOKENIZATION */
-        .token-panel {
-            height: 140px;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            text-align: center;
-        }
-        .token-hash { color: var(--accent); font-family: monospace; font-size: 12px; }
+.products {
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  display:none;
+  gap:8px;
+  flex-wrap:wrap;
+}
 
-        /* PRAWA STRONA: AUCTION */
-        .auction-panel { border-color: var(--accent); }
-        .lot-info { font-size: 13px; color: #fff; margin-bottom: 10px; }
-        .price-tag { font-size: 32px; color: var(--accent); font-weight: bold; text-align: center; margin: 20px 0; }
-        .timer { font-size: 20px; color: #fff; text-align: center; font-family: monospace; }
-        .bid-btn {
-            width: 100%;
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 12px;
-            font-weight: bold;
-            margin-top: 15px;
-            cursor: pointer;
-        }
+.product {
+  background:#000a;
+  padding:6px;
+  border-radius:6px;
+  font-size:12px;
+}
 
-        /* STOPKA */
-        footer {
-            grid-column: 1 / 4;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            color: var(--text-primary);
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .ticker { animation: scroll 30s linear infinite; }
-        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+/* AUCTION */
+.price {
+  font-size:26px;
+  color:#00ff99;
+}
 
-        /* RESPONSYWNOŚĆ PIONOWA */
-        @media (max-width: 900px) {
-            #main-terminal { display: flex; flex-direction: column; overflow-y: auto; height: auto; }
-            body { overflow-y: auto; }
-        }
-    </style>
+/* BUTTONS */
+button {
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+  border:none;
+  border-radius:6px;
+}
+
+.bid { background:#ff9933; }
+.buy { background:#00cc66; }
+
+/* MAPY */
+.maps {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+@media(max-width:600px){
+  .maps {
+    grid-template-columns:1fr;
+  }
+}
+
+.map {
+  height:180px;
+  background:#0f241c;
+  border-radius:10px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ANIMACJA AUT */
+.vehicle {
+  width:8px;
+  height:8px;
+  background:#00ffcc;
+  border-radius:50%;
+  position:absolute;
+  animation:move 8s linear infinite;
+}
+
+@keyframes move {
+  0% { left:0; top:50%; }
+  50% { left:70%; top:20%; }
+  100% { left:100%; top:70%; }
+}
+
+/* TRANSPORT */
+.line {
+  position:absolute;
+  width:100%;
+  height:2px;
+  background:linear-gradient(90deg, transparent, #00ff99, transparent);
+  animation:flow 3s infinite;
+}
+
+@keyframes flow {
+  0% { opacity:0; transform:translateX(-100%); }
+  50% { opacity:1; }
+  100% { transform:translateX(100%); opacity:0; }
+}
+
+/* CLIENT */
+.client {
+  font-size:14px;
+}
+
+/* CHAT */
+.chat {
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  width:220px;
+  background:#0f241c;
+  border-radius:10px;
+  padding:8px;
+}
+
+.chat input {
+  width:100%;
+}
+
+/* MAP MODAL */
+.modal {
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:#000c;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal iframe {
+  width:95%;
+  height:90%;
+  border:0;
+}
+</style>
 </head>
+
 <body>
 
-<div id="main-terminal">
-    <header>
-        <div class="logo">Rec<span>Global</span>Eco</div>
-        <div class="hub-title">GAL: GLOBAL AUCTIONS LIVE & DIGITAL ASSET HUB</div>
-    </header>
+<header>
+  <div>🌱 RecGlobalEco</div>
+  <div>🟢 GLOBAL ACTIVE</div>
+</header>
 
-    <section class="panel impact-monitor">
-        <div class="panel-header">GLOBAL IMPACT MONITOR <span>⋮</span></div>
-        <div class="map-box"></div>
-        <div class="stats-row">
-            <div><div class="stat-val">125,430</div><div class="stat-lbl">CO2 DIVERTED (MT)</div></div>
-            <div><div class="stat-val">25,890</div><div class="stat-lbl">MATERIAL (TONS)</div></div>
-        </div>
-        <div style="margin-top:20px;">
-            <div class="stat-lbl">ACTIVE HUBS: <span style="color:var(--highlight)">3</span></div>
-            <div style="font-size: 10px; margin-top:5px;">Berlin | Dubai | Singapore</div>
-        </div>
-    </section>
+<div class="container">
 
-    <section class="live-stream">
-        <div class="video-feed">
-            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800" alt="Recycling Machine Feed">
-        </div>
-        <div class="panel token-panel">
-            <div><div class="stat-lbl">WASTE PALLET</div><div style="font-size:20px;">📦</div></div>
-            <div style="font-size:24px;">➔</div>
-            <div>
-                <div class="stat-lbl">UNIQUE HASH</div>
-                <div class="token-hash">GTK-1450-4E3F-72A1</div>
-                <div style="color:var(--highlight); font-size:9px;">COMPLETE & SECURED</div>
-            </div>
-        </div>
-    </section>
+  <!-- MAPA GLOBAL -->
+  <div class="box">
+    <h4>🌍 GLOBAL IMPACT</h4>
+    <div class="map" onclick="openMap()">
+      <div class="vehicle"></div>
+      <div class="vehicle" style="animation-delay:2s;"></div>
+      <div class="vehicle" style="animation-delay:4s;"></div>
+    </div>
+  </div>
 
-    <section class="panel auction-panel">
-        <div class="panel-header">AUCTION <span style="color:var(--highlight)">● ACTIVE</span></div>
-        <div class="lot-info">LOT #14: 10 PALLETS CERTIFIED PLYWOOD (9MM)</div>
-        <div style="font-size:10px; margin-top:15px;">CURRENT BID:</div>
-        <div class="price-tag">$5,800 USD</div>
-        <div style="font-size:10px; text-align:center;">TIME REMAINING:</div>
-        <div class="timer">00h 14m 28s</div>
-        <button class="bid-btn">PLACE BID</button>
-        <div style="display:flex; gap:5px; margin-top:10px;">
-            <button style="flex:1; background:#333; color:#fff; border:none; padding:5px; font-size:10px;">ALLTON</button>
-            <button style="flex:1; background:#444; color:#fff; border:none; padding:5px; font-size:10px;">TIMER</button>
-        </div>
-    </section>
+  <!-- LIVE -->
+  <div class="box live">
+    <h4>🔴 LIVE STREAM</h4>
+    <img src="https://images.unsplash.com/photo-1581093458791-9d42c7b9a3c2">
 
-    <footer>
-        <div class="ticker">
-            // CERTIFIED EKO-RESOURCES: 100% TRACEABLE (ISO 9001) // SOLANA (SOL): $145.20 (+4.5%) // JUPITER (JUP): $1.15 (+2.1%) // RECGEO STAKING APY: 8.2% // WASTE MARKET INDEX: WOOD DVS +10% // GLOBAL LOGISTICS STATUS: ALL HUBS OPERATIONAL
-        </div>
-    </footer>
+    <div class="products" id="products">
+      <div class="product">Sklejka 500$</div>
+      <div class="product">Palety 300$</div>
+    </div>
+
+    <button onclick="toggleLive()">Włącz sprzedaż LIVE</button>
+  </div>
+
+  <!-- AUKCJA -->
+  <div class="box">
+    <h4>💰 AUKCJA</h4>
+    <div class="price" id="price">5800 USD</div>
+    <p id="timer"></p>
+
+    <button class="bid" onclick="bid()">Przebij</button>
+    <button class="buy" onclick="buy()">Kup teraz</button>
+  </div>
+
+  <!-- MAPY 2 -->
+  <div class="box maps">
+    <div class="map">
+      🚛 FLOTA
+      <div class="vehicle"></div>
+    </div>
+
+    <div class="map">
+      📦 TRANSPORT
+      <div class="line"></div>
+    </div>
+  </div>
+
+  <!-- KLIENT -->
+  <div class="box client">
+    <h4>📦 MOJE ZAMÓWIENIA</h4>
+    <p>Sklejka 9mm</p>
+    <p>🚚 W drodze</p>
+    <button onclick="openMap()">Śledź</button>
+  </div>
+
 </div>
+
+<!-- MAPA -->
+<div class="modal" id="mapModal" onclick="closeMap()">
+  <iframe src="https://maps.google.com/maps?q=world&t=&z=3&output=embed"></iframe>
+</div>
+
+<!-- CHAT -->
+<div class="chat">
+  <b>Czat</b>
+  <input placeholder="Napisz...">
+</div>
+
+<script>
+let price = 5800;
+let time = 900;
+let live = false;
+
+function bid(){
+  price += 100;
+  document.getElementById("price").innerText = price + " USD";
+}
+
+function buy(){
+  alert("Kupiono!");
+}
+
+function toggleLive(){
+  live = !live;
+  document.getElementById("products").style.display =
+    live ? "flex" : "none";
+}
+
+function openMap(){
+  document.getElementById("mapModal").style.display="flex";
+}
+
+function closeMap(){
+  document.getElementById("mapModal").style.display="none";
+}
+
+setInterval(()=>{
+  if(time>0){
+    time--;
+    document.getElementById("timer").innerText =
+      "Koniec za: " + time + "s";
+  }
+},1000);
+</script>
 
 </body>
 </html>
