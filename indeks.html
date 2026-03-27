@@ -1,57 +1,105 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>RecGlobalEco - Projekt GAL</title>
-    <style>
-        body { background: #0b0f19; color: #e5e7eb; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
-        .dashboard-header { border-left: 4px solid #10b981; padding-left: 20px; margin-bottom: 40px; }
-        h1 { color: #10b981; font-size: 2.5rem; margin: 0; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        
-        /* Styl Promyków */
-        .card { background: #1f2937; border-radius: 12px; padding: 20px; border: 1px solid #374151; transition: 0.3s; }
-        .card:hover { border-color: #10b981; transform: translateY(-5px); }
-        .price-tag { font-size: 1.5rem; font-weight: bold; color: #10b981; }
-        .old-price { text-decoration: line-through; color: #9ca3af; font-size: 0.9rem; }
-        
-        /* Panel Sterowania - Symulacja */
-        .status-bar { display: flex; justify-content: space-between; background: #111827; padding: 15px; border-radius: 8px; margin-top: 30px; border: 1px solid #10b981; }
-        .live-indicator { color: #10b981; animation: blink 1.5s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-    </style>
-</head>
-<body>
-
-    <div class="dashboard-header">
-        <h1>PROJECT GAL: CADILLAC RECYKLINGU</h1>
-        <p>Status: <span class="live-indicator">● LIVE DASHBOARD</span> | Region: Global / Dubai / USA</p>
+<section class="bg-zinc-950 text-white py-16 px-6 border-b border-yellow-800">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <div class="text-center group">
+      <div class="relative inline-block">
+        <div class="absolute -inset-2 bg-yellow-600 rounded-lg blur opacity-25 group-hover:opacity-60 transition duration-1000"></div>
+        <img src="okladka_ksiazki.jpg" alt="Złota Biblia Sukcesu" class="relative rounded-lg shadow-2xl max-w-sm w-full transition transform group-hover:scale-105">
+      </div>
+      <h3 class="mt-8 text-2xl font-black uppercase text-yellow-500 tracking-widest italic">Złota Biblia Sukcesu</h3>
+      <p class="text-gray-500 italic">The Golden Bible of Success - Prolog: Droga do Nieba</p>
     </div>
-
-    <div class="grid">
-        <div class="card">
-            <h3>Płyta Budowlana PPO-15</h3>
-            <p>Technologia: Recykling Taktyczny GAL</p>
-            <p class="old-price">Cena rynkowa: 350 PLN</p>
-            <p class="price-tag">Cena GAL: 150 PLN</p>
-            <button style="background:#10b981; border:none; color:white; padding:10px 20px; border-radius:5px; cursor:pointer; width:100%;">REZERWUJ (Token $RECO)</button>
-        </div>
-
-        <div class="card">
-            <h3>Kruszywo Betonowe G1</h3>
-            <p>Odzysk: 100% (Asterix & Obelix)</p>
-            <p class="old-price">Cena rynkowa: 120 PLN/t</p>
-            <p class="price-tag">Cena GAL: 45 PLN/t</p>
-            <button style="background:#10b981; border:none; color:white; padding:10px 20px; border-radius:5px; cursor:pointer; width:100%;">REZERWUJ</button>
+    <div class="space-y-8">
+        <div class="p-6 bg-zinc-900 rounded-xl border border-zinc-800">
+            <h4 class="text-yellow-600 font-bold mb-4 uppercase text-xs tracking-widest">Global Ecosystem Access</h4>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="text-center">
+                    <img src="qr_memcoin.png" class="w-28 h-28 bg-white p-1 rounded mx-auto mb-2">
+                    <p class="text-[10px] font-bold">JOIN THE CREW (MEME)</p>
+                </div>
+                <div class="text-center">
+                    <img src="qr_recglobaleco.png" class="w-28 h-28 bg-white p-1 rounded mx-auto mb-2">
+                    <p class="text-[10px] font-bold">RECGLOBALECO.PL (WEB)</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="status-bar">
-        <div>ZAKONTRAKTOWANA FLOTA: <strong>6 JEDNOSTEK (Oczekiwanie na fundusze)</strong></div>
-        <div>SOLANA HASH: <strong>RECO_v1_live_2026</strong></div>
-        <div style="color: #10b981;">OSZCZĘDNOŚĆ CO2: 12.450 TONS</div>
+  </div>
+</section>
+<div class="bg-black py-10 border-y border-zinc-800">
+  <div class="max-w-4xl mx-auto text-center">
+    <p class="text-yellow-600 text-xs font-bold uppercase tracking-[0.3em] mb-4">Live Network Performance</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <span id="płyty-counter" class="text-4xl font-black text-white">0</span>
+        <p class="text-gray-500 text-xs mt-2 uppercase">Wytworzone Płyty (Eko-Asset)</p>
+      </div>
+      <div>
+        <span id="profit-counter" class="text-4xl font-black text-green-500">0</span><span class="text-green-500 font-black text-xl"> PLN</span>
+        <p class="text-gray-500 text-xs mt-2 uppercase">Wygenerowany Zysk Operacyjny</p>
+      </div>
+      <div>
+        <span id="solana-nodes" class="text-4xl font-black text-blue-400">0</span>
+        <p class="text-gray-500 text-xs mt-2 uppercase">Aktywne Droidy (Solana Nodes)</p>
+      </div>
     </div>
+  </div>
+</div>
 
-</body>
-</html>
+<script>
+// Prosty skrypt animujący licznik, żeby strona "żyła"
+function animateCounter(id, target, speed) {
+  let current = 0;
+  const element = document.getElementById(id);
+  const step = target / (2000 / speed);
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) {
+      element.innerText = Math.floor(target).toLocaleString();
+      clearInterval(timer);
+    } else {
+      element.innerText = Math.floor(current).toLocaleString();
+    }
+  }, speed);
+}
+// Uruchomienie liczników po załadowaniu
+window.onload = () => {
+  animateCounter('płyty-counter', 12450, 20);
+  animateCounter('profit-counter', 4357500, 30);
+  animateCounter('solana-nodes', 42, 50);
+};
+</script>
+<section class="bg-zinc-950 py-20">
+  <div class="max-w-5xl mx-auto text-center px-4">
+    <h2 class="text-3xl font-black text-white uppercase italic mb-10 italic">Globalna Obecność: <span class="text-yellow-600">Dywizja Ratunkowa</span></h2>
+    <div class="relative overflow-hidden rounded-3xl border border-zinc-800 aspect-video bg-zinc-900 flex items-center justify-center">
+       <div class="text-zinc-700 font-mono text-sm">
+         [ SYSTEM MAPY AUTONOMICZNEJ: ŁADOWANIE KOORDYNATÓW USA / AZJA / UE... ]<br>
+         <span class="text-green-600 animate-pulse mt-4 block">● FLOTA GAL #1: LAS VEGAS (ON SITE)</span>
+         <span class="text-yellow-600 animate-pulse block">● FLOTA GAL #2: SZANGHAJ (IN TRANSIT)</span>
+       </div>
+    </div>
+    <p class="mt-6 text-gray-400 text-sm italic">"Tam, gdzie inni widzą ruiny, my widzimy fabrykę gotówki."</p>
+  </div>
+</section>
+<section id="demo-marketplace" class="bg-zinc-900 py-16 px-6 border-y border-yellow-700/30">
+  <div class="max-w-5xl mx-auto text-center">
+    <div class="inline-block px-4 py-1 bg-yellow-600 text-black text-[10px] font-black uppercase mb-4">Phase: Market Demo 1.0</div>
+    <h2 class="text-4xl font-black text-white uppercase italic mb-6">Globalna Giełda Materiałów <span class="text-yellow-500">Premium Eko</span></h2>
+    <p class="text-gray-400 max-w-2xl mx-auto mb-10">Zabezpieczamy dostawy materiałów klasy premium dla rynków zagranicznych. Nasz system $RGE łączy certyfikowanych dostawców z odbiorcami w USA i Azji przez sieć Solana.</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+      <div class="p-8 bg-black rounded-2xl border border-zinc-800 hover:border-yellow-600 transition cursor-pointer">
+        <h4 class="text-xl font-bold text-white mb-2 uppercase italic">Dla Dostawców</h4>
+        <p class="text-sm text-gray-500 mb-4">Masz eko-materiał klasy premium? Wprowadź go do naszej globalnej sieci dystrybucji.</p>
+        <span class="text-yellow-600 font-bold text-xs underline">ZAREJESTRUJ PRODUKT →</span>
+      </div>
+      <div class="p-8 bg-black rounded-2xl border border-zinc-800 hover:border-yellow-600 transition cursor-pointer">
+        <h4 class="text-xl font-bold text-white mb-2 uppercase italic">Dla Odbiorców (USA/ASIA)</h4>
+        <p class="text-sm text-gray-500 mb-4">Szukasz surowców z certyfikatem $RGE Unique Hash? Złóż zapytanie o wolumen.</p>
+        <span class="text-yellow-600 font-bold text-xs underline">ZŁÓŻ ZAPYTANIE O DOSTAWĘ →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 
