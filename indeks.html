@@ -5,85 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REC Global Eco</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
 <style>
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial, sans-serif;
     background: #0b1f17;
     color: white;
 }
 
 section {
-    padding: 80px 20px;
-    max-width: 1200px;
-    margin: auto;
+    padding: 60px 20px;
+    text-align: center;
 }
-
-h1 {font-size: 3em;}
-h2 {font-size: 2em; margin-bottom: 20px;}
 
 .hero {
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
-    background: linear-gradient(180deg, #000000cc, #0b1f17);
 }
+
+h1 {font-size: 40px;}
+h2 {font-size: 28px;}
 
 .btn {
-    padding: 14px 30px;
+    display: inline-block;
     margin: 10px;
+    padding: 12px 25px;
     background: #2ecc71;
     color: black;
-    border-radius: 30px;
     text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    background: #27ae60;
+    border-radius: 5px;
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
+    width: 250px;
+    margin: 10px;
+    padding: 20px;
     background: #132e23;
-    padding: 25px;
-    border-radius: 15px;
-    transition: 0.3s;
+    border-radius: 10px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.highlight {
-    color: #2ecc71;
-}
-
-.fade {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: 0.8s;
-}
-
-.fade.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-footer {
-    text-align: center;
-    padding: 40px;
-    background: #000;
+input, textarea {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 5px;
 }
 </style>
 
@@ -93,93 +66,40 @@ footer {
 <!-- HERO -->
 <section class="hero">
     <h1>REC Global Eco</h1>
-    <p>Przekształcamy odpady w <span class="highlight">wartość</span></p>
-    <div>
-        <a href="#kontakt" class="btn">Rozpocznij współpracę</a>
-        <a href="#jak" class="btn">Zobacz system</a>
-    </div>
+    <p>Przekształcamy odpady w wartość</p>
+    <a href="#kontakt" class="btn">Kontakt</a>
 </section>
 
 <!-- O NAS -->
-<section class="fade">
-    <h2>Nowa era recyklingu</h2>
-    <p>
-    Tworzymy mobilny system, który przetwarza odpady bezpośrednio na miejscu,
-    zamieniając je w materiały budowlane — szybciej, taniej i bez transportu.
-    </p>
+<section>
+    <h2>O nas</h2>
+    <p>Mobilny system recyklingu i produkcji materiałów na miejscu.</p>
 </section>
 
 <!-- JAK DZIAŁA -->
-<section id="jak" class="fade">
-    <h2>Jak działa system</h2>
+<section>
+    <h2>Jak to działa</h2>
     <div class="grid">
-        <div class="card">
-            <h3>1. Zbieranie</h3>
-            <p>Odpady z budów i przemysłu</p>
-        </div>
-        <div class="card">
-            <h3>2. Przetwarzanie</h3>
-            <p>Mobilne jednostki na miejscu</p>
-        </div>
-        <div class="card">
-            <h3>3. Produkcja</h3>
-            <p>Gotowe materiały budowlane</p>
-        </div>
+        <div class="card">Zbieranie</div>
+        <div class="card">Przetwarzanie</div>
+        <div class="card">Produkcja</div>
     </div>
 </section>
 
-<!-- KORZYŚCI -->
-<section class="fade">
-    <h2>Korzyści</h2>
-    <div class="grid">
-        <div class="card">↓ 40% kosztów</div>
-        <div class="card">↓ emisji CO₂</div>
-        <div class="card">Szybsza produkcja</div>
-        <div class="card">Produkcja na miejscu</div>
-    </div>
-</section>
-
-<!-- MODEL -->
-<section class="fade">
-    <h2>Model biznesowy</h2>
-    <p>
-    Skalowalny system oparty na partnerstwach i franczyzie.
-    Umożliwia szybkie wdrażanie w różnych regionach świata.
-    </p>
-</section>
-
-<!-- CTA -->
-<section class="fade">
-    <h2>Zbudujmy przyszłość razem</h2>
-    <a href="#kontakt" class="btn">Skontaktuj się</a>
+<!-- OBRAZEK TEST -->
+<section>
+    <h2>System</h2>
+    <img src="twoj-obrazek.jpg" width="300">
 </section>
 
 <!-- KONTAKT -->
-<section id="kontakt" class="fade">
+<section id="kontakt">
     <h2>Kontakt</h2>
-    <form>
-        <input type="text" placeholder="Imię" required style="padding:10px;width:80%;max-width:400px;"><br><br>
-        <input type="email" placeholder="Email" required style="padding:10px;width:80%;max-width:400px;"><br><br>
-        <textarea placeholder="Wiadomość" style="padding:10px;width:80%;max-width:400px;"></textarea><br><br>
-        <button class="btn">Wyślij</button>
-    </form>
+    <input type="text" placeholder="Imię"><br>
+    <input type="email" placeholder="Email"><br>
+    <textarea placeholder="Wiadomość"></textarea><br>
+    <button class="btn">Wyślij</button>
 </section>
-
-<footer>
-    <p>REC Global Eco © 2026</p>
-</footer>
-
-<script>
-const elements = document.querySelectorAll('.fade');
-window.addEventListener('scroll', () => {
-    elements.forEach(el => {
-        const position = el.getBoundingClientRect().top;
-        if(position < window.innerHeight - 100){
-            el.classList.add('show');
-        }
-    });
-});
-</script>
 
 </body>
 </html>
