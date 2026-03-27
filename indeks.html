@@ -13,29 +13,33 @@ body {
     color: white;
 }
 
-section {
-    padding: 60px 20px;
+header {
+    background: #000;
+    padding: 20px;
     text-align: center;
 }
 
-.hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+section {
+    padding: 50px 20px;
+    text-align: center;
 }
 
-h1 {font-size: 40px;}
-h2 {font-size: 28px;}
+h1 {font-size: 36px;}
+h2 {font-size: 26px;}
 
 .btn {
     display: inline-block;
-    margin: 10px;
     padding: 12px 25px;
+    margin: 10px;
     background: #2ecc71;
     color: black;
     text-decoration: none;
     border-radius: 5px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
 }
 
 .grid {
@@ -52,48 +56,63 @@ h2 {font-size: 28px;}
     border-radius: 10px;
 }
 
+img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
 input, textarea {
     width: 80%;
     max-width: 400px;
     padding: 10px;
     margin: 5px;
+    border-radius: 5px;
+    border: none;
 }
 </style>
 
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
+<header>
     <h1>REC Global Eco</h1>
     <p>Przekształcamy odpady w wartość</p>
-    <a href="#kontakt" class="btn">Kontakt</a>
-</section>
+</header>
 
-<!-- O NAS -->
-<section>
+<section class="container">
     <h2>O nas</h2>
-    <p>Mobilny system recyklingu i produkcji materiałów na miejscu.</p>
+    <p>
+    Mobilny system recyklingu, który przetwarza odpady bezpośrednio na miejscu
+    i zamienia je w materiały budowlane.
+    </p>
 </section>
 
-<!-- JAK DZIAŁA -->
-<section>
+<section class="container">
     <h2>Jak to działa</h2>
     <div class="grid">
-        <div class="card">Zbieranie</div>
-        <div class="card">Przetwarzanie</div>
-        <div class="card">Produkcja</div>
+        <div class="card">Zbieranie odpadów</div>
+        <div class="card">Przetwarzanie mobilne</div>
+        <div class="card">Produkcja materiałów</div>
     </div>
 </section>
 
-<!-- OBRAZEK TEST -->
-<section>
+<section class="container">
     <h2>System</h2>
-<img src="truck.jpg">
+    <!-- TU WKLEJ SWÓJ OBRAZEK -->
+    <img src="obrazek.jpg" alt="system">
 </section>
 
-<!-- KONTAKT -->
-<section id="kontakt">
+<section class="container">
+    <h2>Korzyści</h2>
+    <div class="grid">
+        <div class="card">↓ 40% kosztów</div>
+        <div class="card">↓ emisji CO₂</div>
+        <div class="card">Produkcja na miejscu</div>
+    </div>
+</section>
+
+<section class="container">
     <h2>Kontakt</h2>
     <input type="text" placeholder="Imię"><br>
     <input type="email" placeholder="Email"><br>
